@@ -1,0 +1,5 @@
+<%# if @distributors.count > 0%>
+$('#distributors_list').html("<%=escape_javascript(render :partial => "distributors/index", :locals => {distributors: @distributors,location: @location}) %>");
+<%#else%>
+// $('#distributors_list').html('<h3>No any Distributors</h3>')
+<%#end%>

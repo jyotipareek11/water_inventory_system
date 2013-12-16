@@ -1,0 +1,21 @@
+<h4>Add New Distributor to <%= @location.name%></h4>
+<%= form_for @distributor, url: location_distributors_path(@location), :html => { :class => 'form-horizontal' } do |f| %>
+ <div class="control-group">
+    <%= f.label :email, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.email_field :email, :class => 'text_field' %>
+    </div>
+  </div>
+
+<div class="control-group">
+    <%= f.label :password, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.password_field :password, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                location_distributors_path(@location), :class => 'btn' %>
+  </div>
+<%end%>

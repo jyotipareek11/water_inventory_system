@@ -1,0 +1,38 @@
+
+<%- model_class = User -%>
+<div class="page-header">
+  <h3>Distributors of <%= location.name%></h3>
+</div>
+<% if @distributors.count > 0%>
+<%= link_to "Add New Distributor for "+ location.name, new_location_distributor_path(location),:class => 'btn btn-primary' %>
+<%= link_to "Back", locations_path,:class => 'btn btn-primary' %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:email) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% distributors.each do |user| %>
+      <tr>
+        <td><%= link_to user.email, "/users/show/"+user.id.to_s %></td>
+        <td><%=l user.created_at %></td>
+        <td>
+          <%= link_to "Show",
+                        location_distributor_path(location,user), :class => 'btn btn-mini btn-danger' %>
+           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              location_distributor_path(location,user),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => "Are you Sure you want to remove this Distributor? All clients related tod this Distributor will get remove.")) },
+              :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%else%>
+  <h4>No Any Distributors</h4>
+  <%= link_to "Add New Distributor for "+ location.name, new_location_distributor_path(location),:class => 'btn btn-primary' %>
+<%end%>
