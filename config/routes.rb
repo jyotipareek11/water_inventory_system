@@ -2,12 +2,22 @@ WaterInventorySystem::Application.routes.draw do
   
  
 
+  resources :invoices
+
+  resources :orders
+
+  resources :sales
+
+  resources :inventories, only: [:index]
+
   resources :products
 
-  resources :vendors do
+  resources :purchases
+
+  resources :vendors #do
     # resources :purchase_orders
-    resources :purchases
-  end  
+    
+  # end  
 
   resources :clients
 

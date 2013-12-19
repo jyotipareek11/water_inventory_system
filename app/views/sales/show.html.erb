@@ -1,20 +1,19 @@
-<%- model_class = Purchase -%>
+  <%- model_class = Sale -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
 </div>
 
-
-  <dl class="dl-horizontal">
-      <dt><strong>Vendor:</strong></dt>
-      <dd><%= @vendor.name %></dd>
-      <dt><strong>Total Items orderd:</strong></dt>
-      <dd><%= @purchase.invoice.products.count %></dd>
+<dl class="dl-horizontal">
+      <dt><strong>Location:</strong></dt>
+      <dd><%= @location.name %></dd>
+      <dt><strong>Total Items sale:</strong></dt>
+      <dd><%= @sale.invoice.products.count %></dd>
       <dt>Items:-</dt>
       <br/>
   </dl>
   <%- count = 0%>
   <ul>
-  <%for invoice_product in @purchase.invoice.invoice_products do %>
+  <%for invoice_product in @sale.invoice.invoice_products do %>
     <li>
       Product-<%= count+1%>
       <%-count = count+1%>
@@ -33,18 +32,14 @@
       </ul>
     </li>  
   <%end%>
-      
-  
-    
-  
- 
+
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
-              purchases_path, :class => 'btn'  %>
+              sales_path, :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_purchase_path(@purchase), :class => 'btn' %>
+              edit_sale_path(@sale), :class => 'btn' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              purchase_path(@purchase),
+              sale_path(@sale),
               :method => 'delete',
               :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
               :class => 'btn btn-danger' %>

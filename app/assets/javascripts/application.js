@@ -31,6 +31,32 @@ ready = function(){
 			alert("Please select any Location");
 		}
 	});	
+
+	var distributors = $('#sale_distributor_id').html();
+	$('#sale_distributor_id').parents().find('.sub-div').hide();	
+	$('.sales-div-actions').hide();	
+	$(".new-distributor-div").empty();	
+	$('#sale_location_id').change(function(){
+	$(".new-distributor-div").empty();
+		// var location = $("#sale_location_id option:selected").text()
+		var location = $(this).find(":selected").text()
+		console.log(location,"new location");
+		var options = $(distributors).filter("optgroup[label='"+location+"']").html();
+		console.log(options,"options");
+		if(options){
+			$('#sale_distributor_id').html(options);
+			$('#sale_distributor_id').parents().find('.sub-div').show();	
+			$('.sales-div-actions').show();
+		}
+		else{
+			var link = "<h4>No any Distributor for "+location+"</h4><a href='/locations/"+ this.value+"/distributors/new' class='btn btn-mini btn-danger'>Add New Distributor</a>"
+			$(".new-distributor-div").append(link);			
+			$('#sale_distributor_id').empty();
+			$('#sale_distributor_id').parents().find('.sub-div').hide();	
+			$('.sales-div-actions').hide();	
+		}
+	});
+
 };
 
 $(document).ready(ready);

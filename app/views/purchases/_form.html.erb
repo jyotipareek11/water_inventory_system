@@ -1,46 +1,18 @@
-<%= form_for [@vendor,@purchase], :html => { :class => 'form-horizontal' } do |f| %>
-    <div class="control-group">
-    <%= f.label :product_id, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.collection_select :product_id, @products, :id, :name, :prompt => true  %>
-    </div>
-  </div>
+<%= form_for @purchase, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="control-group">
-    <%= f.label :no_of_unit, :class => 'control-label' %>
+    <%= f.label :vendor_id, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :no_of_unit, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :unit_price, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :unit_price, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :total_price, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :total_price, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :discount, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :discount, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :price_after_discount, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :price_after_discount, :class => 'text_field' %>
+      <%= f.collection_select :vendor_id, Vendor.all, :id, :name, :prompt => true  %>
     </div>
   </div>
 
-  
+  <%= f.fields_for :invoice do |builder| %>
+   <%= render "invoice_fields", :f => builder %>
+  <% end %>
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                 vendor_purchases_path(@vendor), :class => 'btn' %>
+                 purchases_path, :class => 'btn' %>
   </div>
 <% end %>

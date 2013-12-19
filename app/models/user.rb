@@ -5,8 +5,14 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   
   # has_many :clients, :class_name => "Client", :foreign_key => "distributor_id", :conditions => "role = 'distributer'" 
+  scope :distributors, ->{where(role:'distributor')}
   has_many :clients, :foreign_key => "distributor_id", dependent: :destroy#, -> { where "users.role = 'distributer'" }, :class_name => "Client", :foreign_key => "distributer_id"
-  has_many :vendors, dependent: :destroy
+  has_many :sales, :foreign_key => "distributor_id", dependent: :destroy
+  has_many :sales, dependent: :destroy
+  has_many :vendors, -> { where "users.role = 'admin'" }, dependent: :destroy
+  has_many :purchases, dependent: :destroy
+
+
   belongs_to :location
 
   

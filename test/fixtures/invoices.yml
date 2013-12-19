@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  no_of_unit: 1
+  unit_price: 1.5
+  total_price: 1.5
+  discount: 1.5
+  price_after_discount: MyString
+
+two:
+  no_of_unit: 1
+  unit_price: 1.5
+  total_price: 1.5
+  discount: 1.5
+  price_after_discount: MyString

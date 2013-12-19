@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  location_id: 1
+  distributor_id: 1
+  total_quantity: 1
+  total_amout: 1.5
+  discount: 1.5
+  total_after_discount: 1.5
+
+two:
+  location_id: 1
+  distributor_id: 1
+  total_quantity: 1
+  total_amout: 1.5
+  discount: 1.5
+  total_after_discount: 1.5

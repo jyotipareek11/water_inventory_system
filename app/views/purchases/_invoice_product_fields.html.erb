@@ -1,0 +1,39 @@
+<div class="control-group">
+    <%= f.label :product_id, :class => 'control-label' %>
+    <div class="controls">
+       <%#= f.collection_select :location_id, @locations, :id, :name, :prompt => true  %>
+       <%= f.collection_select :product_id, Product.order(:name), :id, :name, :prompt => true  %>
+    </div>
+  </div>
+	<div class="control-group">
+    <%= f.label :no_of_unit, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :no_of_unit, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :unit_price, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :unit_price, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :total_price, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :total_price, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :discount, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :discount, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :price_after_discount, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :price_after_discount, :class => 'text_field' %>
+    </div>
+  </div>
+  <%= f.check_box :_destroy %>
+  <%= f.label :_destroy, "Remove Product" %>
