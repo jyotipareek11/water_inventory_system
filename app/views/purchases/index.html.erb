@@ -4,10 +4,41 @@
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
 <% if @purchases.count > 0%>
-purchasessss present
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Count</th>
+      <th> Vendor </th>
+      <th>Items Ordered</th>
+      <th>Quantity</th>
+      <th>Amount</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @purchases.each do |purchase| %>
+      <tr>
+      	<%- invoice = purchase.invoice%>
+      	<%- count = count+1 %>
+      	<td><%= link_to count, purchase_path(purchase) %></td>
+        <td><%= purchase.vendor.name%></td>
+        <td><%= invoice.products.count %></td>
+        <td><%= invoice.no_of_unit%></td>
+        <td><%= invoice.price_after_discount%></td>
+        <td><%= purchase.state%></td>
+        <% if purchase.is_ordered?%>
+        	<td><%= link_to "Mark as Received", update_state_purchase_path(purchase)%></td>
+        <%end%>
+      </tr>
+    <%end%> 
+   </tbody>
+   </table>    
+
+
 <%else%>
 <h4>No Any Purchase made.</h4>
 <%end%>
 <%= link_to "Create New Purchase",
             new_purchase_path,
             :class => 'btn btn-primary' %>
+

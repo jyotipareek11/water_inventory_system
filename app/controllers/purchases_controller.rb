@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  before_action :set_purchase, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchase, only: [:show, :edit, :update, :destroy,:update_state]
   before_action :set_vendor, only: [:create]
   before_action :set_association, only: [:show]
   # GET /purchases
@@ -20,7 +20,7 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new
     invoice = @purchase.build_invoice
     # invoice = @purchase.invoice#.build
-    invoice_product = invoice.invoice_products.build
+    # invoice_product = invoice.invoice_products.build-----
     # @products = Product.all
   end
 
@@ -32,9 +32,11 @@ class PurchasesController < ApplicationController
   # POST /purchases.json
   def create
     @purchase = Purchase.new(purchase_params)
-    @purchase.vendor = @vendor
-    @purchase.added_by = current_user.id
-    @purchase.user = current_user
+    @purchase.update_associations(current_user, @vendor)
+    # @purchase.vendor = @vendor
+    # @purchase.added_by = current_user.id
+    # @purchase.invoice.user = @purchase.user = current_user
+    @purchase.state = "ordered"
     respond_to do |format|
       if @purchase.save
         format.html { redirect_to purchase_path(@purchase), notice: 'Purchase was successfully created.' }
@@ -59,6 +61,18 @@ class PurchasesController < ApplicationController
       end
     end
   end
+
+  def update_state
+    respond_to do |format|
+      if @purchase.update_state_and_inventory
+         format.html { redirect_to purchases_path, notice: 'Purchase was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'index' }
+        format.json { render json: @purchase.errors, status: :unprocessable_entity, notice: 'Sorry some error has occure!!! Not able to update Purchase.' }
+      end
+    end
+  end  
 
   # DELETE /purchases/1
   # DELETE /purchases/1.json
@@ -87,8 +101,10 @@ class PurchasesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def purchase_params
       params.require(:purchase).permit(:added_by, :modified_by,:vendor_id,:user_id,
-          :invoice_attributes => [:no_of_unit,:total_price,:discount,:price_after_discount,
-            :invoice_products_attributes => [:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount]
+          # :invoice_attributes => [:id,:no_of_unit,:total_price,:discount,:price_after_discount, :_destroy,
+          invoice_attributes: [:id,:no_of_unit,:total_price,:discount,:price_after_discount, :_destroy,
+            # :invoice_products_attributes => [:id,:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount, :_destroy]
+            invoice_products_attributes: [:id,:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount,:state, :_destroy]
           ]
         )
     end

@@ -15,6 +15,8 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+//= require cocoon
+
 var ready;
 ready = function(){
 	
@@ -57,6 +59,13 @@ ready = function(){
 		}
 	});
 
+
+	$('.new-purchase-div').on("cocoon:before-remove", function() {
+        console.log("hey before remove");
+      })
+      .on("cocoon:after-remove", function() {
+        console.log("after remove");
+      });
 };
 
 $(document).ready(ready);

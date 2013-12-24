@@ -5,9 +5,9 @@ class Sale < ActiveRecord::Base
 	
 	has_one :invoice, :as=> :invoiceable, :dependent => :destroy
 	
-	accepts_nested_attributes_for :invoice
-	# has_many :sale_products
-	# has_many :products, :through => :sale_products, :dependent => :destroy
+	accepts_nested_attributes_for :invoice,:reject_if => :all_blank, :allow_destroy => true
 
-	# accepts_nested_attributes_for :sale_products, :reject_if => lambda { |a| a[:no_of_unit].blank? }, :allow_destroy => true
+	states = %w[order_initiate delivered]  
+
+	
 end

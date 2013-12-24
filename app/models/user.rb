@@ -8,10 +8,10 @@ class User < ActiveRecord::Base
   scope :distributors, ->{where(role:'distributor')}
   has_many :clients, :foreign_key => "distributor_id", dependent: :destroy#, -> { where "users.role = 'distributer'" }, :class_name => "Client", :foreign_key => "distributer_id"
   has_many :sales, :foreign_key => "distributor_id", dependent: :destroy
-  has_many :sales, dependent: :destroy
+  # has_many :sales, dependent: :destroy
   has_many :vendors, -> { where "users.role = 'admin'" }, dependent: :destroy
   has_many :purchases, dependent: :destroy
-
+  has_many :inventories, dependent: :destroy
 
   belongs_to :location
 

@@ -1,10 +1,12 @@
 class Invoice < ActiveRecord::Base
+	belongs_to :user
 	belongs_to :invoiceable, :polymorphic => true
 	
 	has_many :invoice_products
 	has_many :products, :through => :invoice_products, :dependent => :destroy
 
-	accepts_nested_attributes_for :invoice_products#, :reject_if => lambda { |a| a[:no_of_unit].blank? }, :allow_destroy => true
+	accepts_nested_attributes_for :invoice_products, :reject_if => :all_blank, :allow_destroy => true
+
 
    	after_initialize :init
 
@@ -18,7 +20,7 @@ class Invoice < ActiveRecord::Base
 
 
 
-	def update_vaalues(p_no_of_unit,p_total_price,p_discount,p_price_after_discount)	
+	def update_values(p_no_of_unit,p_total_price,p_discount,p_price_after_discount)	
 		update_attributes(no_of_unit: (self.no_of_unit + p_no_of_unit),
 						 total_price: (self.total_price + p_total_price), 
 						 discount: (self.discount + p_discount), 

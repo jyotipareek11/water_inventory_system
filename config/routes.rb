@@ -12,7 +12,11 @@ WaterInventorySystem::Application.routes.draw do
 
   resources :products
 
-  resources :purchases
+  resources :purchases do
+    member do
+      get 'update_state'
+    end  
+  end  
 
   resources :vendors #do
     # resources :purchase_orders
