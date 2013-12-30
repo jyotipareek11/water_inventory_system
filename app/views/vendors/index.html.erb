@@ -14,7 +14,7 @@
     <% @vendors.each do |vendor| %>
       <tr>
         <td><%= link_to vendor.name , vendor_path(vendor)%></td>
-        <td><%= vendor.created_at.strftime('%a %b %d, %I:%M %p ') %></td>
+        <td><%= long_date_format(local_time_zone(vendor.created_at))%></td>
         <td>
           <% if @from == 'purchases'%>
               <%= link_to "View Purchase",

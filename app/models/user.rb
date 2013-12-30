@@ -7,15 +7,17 @@ class User < ActiveRecord::Base
   # has_many :clients, :class_name => "Client", :foreign_key => "distributor_id", :conditions => "role = 'distributer'" 
   scope :distributors, ->{where(role:'distributor')}
   has_many :clients, :foreign_key => "distributor_id", dependent: :destroy#, -> { where "users.role = 'distributer'" }, :class_name => "Client", :foreign_key => "distributer_id"
-  has_many :sales, :foreign_key => "distributor_id", dependent: :destroy
-  # has_many :sales, dependent: :destroy
+  #has_many :admin_sales, -> { where "users.role = 'admin'" }, :class_name => "Sale", dependent: :destroy
+  #has_many :distributor_sales, -> { where "users.role = 'distributor'" }, :class_name => "Sale", dependent: :destroy
+  has_many :sales, dependent: :destroy
   has_many :vendors, -> { where "users.role = 'admin'" }, dependent: :destroy
   has_many :purchases, dependent: :destroy
   has_many :inventories, dependent: :destroy
 
   belongs_to :location
-
+ # belongs_to :sales , -> { where "users.role = 'distributor'" }
   
+
   ROLES = %w[admin distributor client]     
   
   def self.create_new_distributor(email, password,location_id)
@@ -35,7 +37,19 @@ class User < ActiveRecord::Base
 
   def full_name
     return "#{first_name} #{last_name}"
-  end  
+  end 
+
+  def name
+    return "#{first_name} #{last_name}"
+  end
+
+  def purchase_ordered
+    purchases.purchase_ordered.to_a
+  end
+
+  def purchase_received
+    purchases.purchase_received.to_a
+  end    
 
 
 end

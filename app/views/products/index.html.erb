@@ -19,7 +19,7 @@
       <tr>
         <td><%= link_to count, product_path(product) %></td>
         <td><%= link_to product.name, product_path(product)%></td>
-        <td><%=l product.created_at %></td>
+        <td><%=long_date_format(local_time_zone(product.created_at))%></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_product_path(product), :class => 'btn btn-mini' %>

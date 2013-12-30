@@ -6,8 +6,12 @@ class Purchase < ActiveRecord::Base
 	
 	accepts_nested_attributes_for :invoice, :reject_if => :all_blank, :allow_destroy => true
 
-	#after_save :update_inventory
+	
+	scope :purchase_ordered, -> { where(state: 'ordered') }
+	scope :purchase_received, -> { where(state: 'received')}
+
 	states = %w[ordered received] 
+
 
 	def update_associations(current_user,vendor)
 		self.vendor = vendor
@@ -22,24 +26,23 @@ class Purchase < ActiveRecord::Base
 	def update_state_and_inventory
 		# update Purchase state
 		update_attribute("state", "received")
-
 		for product in invoice.invoice_products do
 			# update invoice_products's item state
-			product.update_state_to_received
+			product.update_state_to_received 
 			# update inventory
 			inventory = Inventory.where(:user_id =>invoice.user.id, :product_id => product.product_id).first_or_create
 			inventory.quantity = inventory.quantity == nil ? product.no_of_unit : inventory.quantity + product.no_of_unit
 			inventory.save!	
-		end			
+
+
+		end	
+		purchase_user = self.user
+		if (purchase_user.is_distributor?)		
+			# update respective sale state to dispatched and invoice_products state to delivered
+			parent_sale = Sale.find(self.parent_sale_id)
+			parent_sale.update_state_to_delivered
+		end
+		return true				
 	end	
-
-	# private
-
-	# def update_inventory
-	# 	inventory = Inventory.find_by_product_id(self.product_id) || Inventory.new(:product_id => self.product_id)
-	# 	inventory.quantity = inventory.quantity == nil ? self.no_of_unit : inventory.quantity + self.no_of_unit
-	# 	 # self.product.update_attribute("qty", (product.qty - self.qty))
-	# 	inventory.save!
-	# end		
 
 end

@@ -5,8 +5,10 @@
 
 
   <dl class="dl-horizontal">
-      <dt><strong>Vendor:</strong></dt>
-      <dd><%= @vendor.name %></dd>
+      <% if current_user.is_admin?%>
+        <dt><strong>Vendor:</strong></dt>
+        <dd><%= @vendor.name %></dd>
+      <%end%>
       <dt><strong>Total Items orderd:</strong></dt>
       <dd><%= @purchase.invoice.products.count %></dd>
       <dt>Items:-</dt>
@@ -30,6 +32,9 @@
         <li>Discount</li>
         <li><%= invoice_product.discount%></li>
         <li>Discount After Price</li>
+        <li><%= invoice_product.price_after_discount%></li>
+        <li>Item State</li>
+        <li><%= invoice_product.state%></li>
       </ul>
     </li>  
   <%end%>
@@ -41,11 +46,14 @@
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               purchases_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+  <% if @purchase.is_ordered?%>            
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_purchase_path(@purchase), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
               purchase_path(@purchase),
               :method => 'delete',
               :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
               :class => 'btn btn-danger' %>
+  <%end%>              
 </div>

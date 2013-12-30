@@ -10,6 +10,7 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:email) %></th>
+      <th>Full Name</th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -18,7 +19,8 @@
     <% distributors.each do |user| %>
       <tr>
         <td><%= link_to user.email, "/users/show/"+user.id.to_s %></td>
-        <td><%=l user.created_at %></td>
+        <td><%= user.full_name%></td>
+        <td><%=long_date_format(local_time_zone(user.created_at))%></td>
         <td>
           <%= link_to "Show",
                         location_distributor_path(location,user), :class => 'btn btn-mini btn-danger' %>

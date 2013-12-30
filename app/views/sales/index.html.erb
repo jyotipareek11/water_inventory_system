@@ -2,7 +2,46 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<%= @sales.count%>
-<%= link_to t('.new', :default => t("helpers.links.new")),
+<%- count = 0%>
+<% if @sales.count > 0%>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Count</th>
+      <th> Distributor </th>
+      <th>Sale Items </th>
+      <th>Quantity</th>
+      <th>Amount</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+      	<%- invoice = sale.invoice%>
+      	<%- count = count+1 %>
+      	<td><%= link_to count, sale_path(sale) %></td>
+        <td><%= sale.distributor.name%></td>
+        <td><%= invoice.products.count %></td>
+        <td><%= invoice.no_of_unit%></td>
+        <td><%= invoice.price_after_discount%></td>
+        <td><%= sale.state%></td>
+        <%# if sale.is_ordered?%>
+        	<td><%#= link_to "Mark as Received", update_state_purchase_path(purchase)%></td>
+        <%#end%>
+      </tr>
+    <%end%> 
+   </tbody>
+   </table>    
+
+
+<%else%>
+<h4>No Any Sales made.</h4>
+<%end%>
+<% if current_user.inventories.count>0%>
+<%= link_to "Create New Sale",
             new_sale_path,
             :class => 'btn btn-primary' %>
+<%else%>
+	<p>No Stock</p>
+<%end%>

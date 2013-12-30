@@ -2,8 +2,9 @@
 <div class="control-group">
     <%= f.label :product_id, :class => 'control-label' %>
     <div class="controls">
-       <%#= f.collection_select :location_id, @locations, :id, :name, :prompt => true  %>
-       <%= f.collection_select :product_id, Product.order(:name), :id, :name, :prompt => true  %>
+       <%#= f.collection_select :location_id, @locations, :id, :name, :prompt => true  Product.available_products%>
+       <%#= f.collection_select :product_id, Product.order(:name), :id, :name, :prompt => true  %>
+       <%= f.collection_select :product_id, Product.available_products(current_user.id), :id, :name, :prompt => true  %>
     </div>
   </div>
   <div class="control-group">
@@ -36,5 +37,6 @@
       <%= f.text_field :price_after_discount, :class => 'text_field' %>
     </div>
   </div>
+  <%= f.hidden_field :state, :value => "blocked"%>
   <%= link_to_remove_association "Remove Product", f %>
   </div>

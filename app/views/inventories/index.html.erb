@@ -16,9 +16,10 @@
     <% @inventories.each do |inventory| %>
       <tr>
         <%- count = count + 1%>
+        <%- product = inventory.product%>
         <td><%= count%></td>
-        <td><%= inventory.quantity %></td>
-        <td><%= inventory.product.name %></td>
+        <td><%= product.available_products(current_user.id) %></td>
+        <td><%= product.name %></td>
         </tr>
     <% end %>
   </tbody>

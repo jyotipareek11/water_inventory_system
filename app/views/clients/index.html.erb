@@ -1,16 +1,20 @@
 <%- model_class = Client -%>
+<%- count = 0%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
+<%- count = 0%>
 <% if !current_user.is_admin?%>
 <%= link_to "Add New Client",
             new_client_path,
             :class => 'btn btn-primary' %>
 <%end%>  
-<% if @clients%>          
+<%- @clients ||= [] %>
+<% if @clients.count > 0%>
 <table class="table table-striped">
   <thead>
     <tr>
+       <th>Count</th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <% if current_user.is_admin?%>
         <th>Distributor</th>
@@ -26,16 +30,18 @@
   <tbody>
     <% @clients.each do |client| %>
       <tr>
+        <%- count = count+1 %>
+        <td><%= link_to count, client_path(client) %></td>
         <td><%= link_to client.name, client_path(client) %></td>
         <% if current_user.is_admin?%>
-          <!-- <td><%#= link_to client.user.full_name location_distributor_path(client.user.location_id,client.user.id)%></td> -->
-          <td><%= client.user.full_name%></td>
+          <td><%= link_to client.user.full_name, location_distributor_path(client.user.location_id,client.user.id)%>
+          </td> 
         <%end%>  
         <td><%= client.email_id %></td>
         <td><%= client.land_line_number %></td>
         <td><%= client.mobile_no %></td>
         <% if current_user.is_admin?%>
-          <td><%=l client.created_at %></td>
+          <td><%=long_date_format(local_time_zone(client.created_at))%></td>
         <%end%>  
         <td>
           <% if !current_user.is_admin?%>

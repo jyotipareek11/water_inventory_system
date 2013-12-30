@@ -1,19 +1,27 @@
 class InvoiceProduct < ActiveRecord::Base
 	belongs_to :invoice
 	belongs_to :product
+	belongs_to :user
+	before_create :add_user
 	after_create :update_associations
 	# after_create :update_inventory
 	states = %w[blocked delivered ordered instock] 
 
 	def update_state_to_received
-		p "in update of invoice products.............."
 		update_attribute("state", "instock")
 		self.save!
 	end
 
+	def update_state_to_delivered
+		update_attribute("state", "delivered")
+		self.save!
+	end		
+
 	private
 
-			
+	def add_user
+		self.user = self.invoice.user
+	end		
 
 	def update_associations
 		# set_state

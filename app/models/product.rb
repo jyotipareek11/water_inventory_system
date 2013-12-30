@@ -7,4 +7,44 @@ class Product < ActiveRecord::Base
 	has_many :invoice_products
 	has_many :invoices, :through => :invoice_products#, :dependent => :destroy
 	
+
+	def available_products(user_id)
+		product_inventory = Inventory.find_by_user_id_and_product_id(user_id,self.id)
+		return product_inventory.quantity - blocked_products(user_id)
+	end
+
+	def self.available_products(user_id)
+		available_products = []
+		for product in Product.all do
+			product_inventory = Inventory.find_by_user_id_and_product_id(user_id,product.id)
+			p "====================================================Product.name================"
+			p product.name
+			p "product_inventory"
+			p product_inventory
+			p "product_inventory.quantity"
+			p product_inventory.quantity
+			p "product.blocked_products(user_id)"
+			p product.blocked_products(user_id)
+
+			available_quantity =  product_inventory.quantity - product.blocked_products(user_id)
+			if(available_quantity > 0)
+				available_products << product
+			end	
+			p "available_quantity"
+			p available_quantity
+			p available_products
+		end 
+		return available_products
+	end
+
+	def blocked_products(user_id)
+		blocked_no_of_unit = 0
+		blocked = self.invoice_products.where("state=? and user_id=?",'blocked',user_id ).to_a
+		if blocked
+			for product in blocked do
+				blocked_no_of_unit = blocked_no_of_unit +product.no_of_unit
+			end
+		end
+		return blocked_no_of_unit
+	end		
 end

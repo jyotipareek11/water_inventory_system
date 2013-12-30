@@ -12,6 +12,7 @@
       <th>Count</th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:city) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -22,6 +23,7 @@
         <td><%= link_to count+1, location_path(location) %></td>
         <td><%= link_to location.name, location_path(location) %></td>
         <td><%= location.city %></td>
+        <td><%=long_date_format(local_time_zone(location.created_at))%></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_location_path(location), :class => 'btn btn-mini bdtn-danger' %>

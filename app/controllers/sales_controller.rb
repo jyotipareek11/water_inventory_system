@@ -5,7 +5,7 @@ class SalesController < ApplicationController
   # GET /sales
   # GET /sales.json
   def index
-    @sales = Sale.all
+    @sales = Sale.where('user_id = ?',current_user.id).to_a
   end
 
   # GET /sales/1
@@ -31,8 +31,8 @@ class SalesController < ApplicationController
   # POST /sales.json
   def create
     @sale = Sale.new(sale_params)
-    @sale.added_by = current_user.id
-    @sale.invoice.user = @sale.user = current_user
+    @sale.update_associations(current_user)
+    @sale.state = "order_initiated"
     respond_to do |format|
       if @sale.save
         format.html { redirect_to @sale, notice: 'Sale was successfully created.' }
@@ -82,7 +82,7 @@ class SalesController < ApplicationController
     def sale_params
       params.require(:sale).permit(:location_id, :distributor_id, :total_quantity, :total_amout, :discount, :total_after_discount,
           :invoice_attributes => [:no_of_unit,:total_price,:discount,:price_after_discount,
-            :invoice_products_attributes => [:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount, :_destroy]
+            :invoice_products_attributes => [:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount,:state, :_destroy]
           ]
         )
     end

@@ -1,14 +1,22 @@
 <%- model_class = Purchase -%>
 <%- count = 0%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <% if @from == 'purchase_order'%>
+    <h1>Purchase Order</h1>
+  <%else%>
+    <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <%end%>  
 </div>
+
+<%- @purchases ||= [] %>
 <% if @purchases.count > 0%>
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Count</th>
-      <th> Vendor </th>
+      <% if current_user.is_admin?%>
+        <th> Vendor </th>
+      <%end%>
       <th>Items Ordered</th>
       <th>Quantity</th>
       <th>Amount</th>
@@ -21,7 +29,9 @@
       	<%- invoice = purchase.invoice%>
       	<%- count = count+1 %>
       	<td><%= link_to count, purchase_path(purchase) %></td>
-        <td><%= purchase.vendor.name%></td>
+        <% if current_user.is_admin?%>
+          <td><%= purchase.vendor.name%></td>
+        <%end%>
         <td><%= invoice.products.count %></td>
         <td><%= invoice.no_of_unit%></td>
         <td><%= invoice.price_after_discount%></td>
@@ -36,7 +46,12 @@
 
 
 <%else%>
-<h4>No Any Purchase made.</h4>
+  <% if @from == 'purchase_order'%>
+    <h4>No Any Purchase Ordered.</h4>
+  <%else%>
+    <h4>No Any Purchase made.</h4>  
+  <%end%>
+
 <%end%>
 <%= link_to "Create New Purchase",
             new_purchase_path,

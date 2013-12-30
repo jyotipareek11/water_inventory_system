@@ -79,7 +79,8 @@
               <ul class="nav nav-list">
                 <li class="nav-header">Sidebar</li>
                 <li><%= link_to "Inventory", inventories_path  %></li>
-                <li><%= link_to "Purchase", purchases_path  %></li>
+                <li><%= link_to "Purchase", purchases_path %></li>
+                <li><%= link_to "Purchase Ordered", purchases_path(:from=>'purchase_order')  %></li>
                 <li><%= link_to "Sales", sales_path  %></li>
                 <li><%= link_to "Link3", "/path3"  %></li>
               </ul>

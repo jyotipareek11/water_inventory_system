@@ -5,7 +5,12 @@ class PurchasesController < ApplicationController
   # GET /purchases
   # GET /purchases.json
   def index
-    @purchases = Purchase.all
+    if params[:from] == 'purchase_order'
+      @purchases = current_user.purchase_ordered
+      @from = 'purchase_order'
+    else
+      @purchases = current_user.purchase_received
+    end  
   end
 
   # GET /purchases/1
@@ -65,10 +70,10 @@ class PurchasesController < ApplicationController
   def update_state
     respond_to do |format|
       if @purchase.update_state_and_inventory
-         format.html { redirect_to purchases_path, notice: 'Purchase was successfully updated.' }
+        format.html { redirect_to purchases_path, notice: 'Purchase was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'index' }
+        format.html { redirect_to purchases_path, notice: 'Sorry some error has occure!!! Not able to update Purchase.' }
         format.json { render json: @purchase.errors, status: :unprocessable_entity, notice: 'Sorry some error has occure!!! Not able to update Purchase.' }
       end
     end
