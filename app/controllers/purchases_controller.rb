@@ -89,6 +89,10 @@ class PurchasesController < ApplicationController
     end
   end
 
+  def orders_from_distributors
+    @orders =  current_user.is_admin? ? current_user.distributors_order : []
+  end    
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_purchase
@@ -96,7 +100,7 @@ class PurchasesController < ApplicationController
     end
 
     def set_vendor
-      @vendor = Vendor.find(params[:purchase][:vendor_id])
+      @vendor = Vendor.find(params[:purchase][:vendor_id]) if current_user.is_admin?
     end
 
     def set_association

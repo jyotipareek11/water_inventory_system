@@ -5,6 +5,8 @@ class Location < ActiveRecord::Base
 	has_many :sales, :dependent => :destroy
 	before_save :add_modifier_detail
 	
+	validates :name, presence: true
+
 	private
 	def add_modifier_detail
 		# if !self.new_record?

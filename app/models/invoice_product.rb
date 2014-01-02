@@ -6,6 +6,19 @@ class InvoiceProduct < ActiveRecord::Base
 	after_create :update_associations
 	# after_create :update_inventory
 	states = %w[blocked delivered ordered instock] 
+	after_initialize :init
+
+
+	validates :product_id, presence: {message: "Please Select product" }
+	validates :no_of_unit, :unit_price,:total_price, presence: true
+	validates :no_of_unit, :unit_price,:total_price, numericality: {greater_than: 0, only_integer: true}
+
+    def init
+      self.no_of_unit  ||= 0
+      self.total_price  ||= 0   
+      self.discount  ||= 0   
+      self.price_after_discount  ||= 0   
+    end
 
 	def update_state_to_received
 		update_attribute("state", "instock")

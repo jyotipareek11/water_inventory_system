@@ -4,8 +4,13 @@
 </div>
 
 <dl class="dl-horizontal">
-      <dt><strong>Location:</strong></dt>
-      <dd><%= @location.name %></dd>
+      <%if current_user.is_admin?%>
+        <dt><strong>Location:</strong></dt>
+        <dd><%= @location.name %></dd>
+      <%elsif current_user.is_distributor?%>
+        <dt><strong>Client:</strong></dt>
+        <dd><%= @client.name %></dd>
+      <%end%>
       <dt><strong>Total Items sale:</strong></dt>
       <dd><%= @sale.invoice.products.count %></dd>
       <dt>Items:-</dt>

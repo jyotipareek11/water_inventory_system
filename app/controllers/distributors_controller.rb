@@ -29,7 +29,7 @@ class DistributorsController < ApplicationController
       if @user.save
         format.html { redirect_to location_distributors_path(@location)  , notice: 'Distributor was successfully created.' }
       else
-        format.html { render action: 'new' }
+        format.html { redirect_to new_location_distributor_path(@location), notice: "Email or password cannot be blank" }
       end
     end
   end  

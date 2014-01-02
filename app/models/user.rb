@@ -16,8 +16,7 @@ class User < ActiveRecord::Base
 
   belongs_to :location
  # belongs_to :sales , -> { where "users.role = 'distributor'" }
-  
-
+ 
   ROLES = %w[admin distributor client]     
   
   def self.create_new_distributor(email, password,location_id)
@@ -49,7 +48,12 @@ class User < ActiveRecord::Base
 
   def purchase_received
     purchases.purchase_received.to_a
-  end    
+  end  
+
+  def distributors_order
+    Purchase.distributors_order.to_a
+    # purchases.distributors_order.to_a
+  end  
 
 
 end

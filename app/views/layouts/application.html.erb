@@ -80,9 +80,13 @@
                 <li class="nav-header">Sidebar</li>
                 <li><%= link_to "Inventory", inventories_path  %></li>
                 <li><%= link_to "Purchase", purchases_path %></li>
-                <li><%= link_to "Purchase Ordered", purchases_path(:from=>'purchase_order')  %></li>
+                <%if current_user.is_admin?%>
+                  <li><%= link_to "Purchase Ordered", purchases_path(:from=>'purchase_order')  %></li>
+                <%end%>
                 <li><%= link_to "Sales", sales_path  %></li>
-                <li><%= link_to "Link3", "/path3"  %></li>
+                <%#if current_user.is_admin?%>
+                  <!-- <li><%#= link_to "Orders from Distributors", orders_from_distributors_purchases_path  %></li> -->
+                <%#end%>
               </ul>
             </div><!--/.well -->
             <%end%>

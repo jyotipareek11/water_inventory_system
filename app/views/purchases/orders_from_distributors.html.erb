@@ -1,0 +1,43 @@
+<%- model_class = 'Distributors Order' -%>
+<%- count = 0%>
+<div class="page-header">
+  <h1>Distributors Order</h1>
+</div>
+
+<%- @orders ||= [] %>
+<% if @orders.count > 0%>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Count</th>
+      <th>Items Ordered</th>
+      <th>Quantity</th>
+      <th>Amount</th>
+      <th>State</th>
+      <th>Order Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+      	<%- invoice = order.invoice%>
+      	<%- count = count+1 %>
+      	<td><%= link_to count, purchase_path(order) %></td>
+        <td><%= invoice.products.count %></td>
+        <td><%= invoice.no_of_unit%></td>
+        <td><%= invoice.price_after_discount%></td>
+        <td><%= order.state%></td>
+        <td><%=long_date_format(local_time_zone(order.created_at))%></td> 
+        <% if order.is_ordered?%>
+          <td><%= link_to "Initiate Order", update_distributor_order_sales_path(order)%></td>
+        <%end%>
+      </tr>
+    <%end%> 
+   </tbody>
+   </table>    
+
+
+<%else%>
+<h4>No Any Order made from Distributors.</h4>  
+<%end%>
+

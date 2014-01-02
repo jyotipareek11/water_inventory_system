@@ -20,6 +20,14 @@
 var ready;
 ready = function(){
 	
+	$('input.create-purchase').click(function(){
+		if($('#purchase_vendor_id :selected').text() == "Please select"){
+			alert("Please select vendor and Products");
+			return false;
+		}
+		return true;
+	});
+
 	$('#distributor_location_id').change(function(){
 		if(this.value.length > 0){
 			$.ajax({
@@ -66,6 +74,8 @@ ready = function(){
       .on("cocoon:after-remove", function() {
         console.log("after remove");
       });
+
+
 };
 
 $(document).ready(ready);

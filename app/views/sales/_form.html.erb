@@ -1,4 +1,6 @@
 <%= form_for @sale, :html => { :class => 'form-horizontal' } do |f| %>
+
+<%if current_user.is_admin?%>
   <div class="control-group">
     <%= f.label :location_id, :class => 'control-label' %>
     <div class="controls">
@@ -6,7 +8,19 @@
        <%= f.collection_select :location_id, Location.order(:name), :id, :name, :prompt => true  %>
     </div>
   </div>
+<%end%>
+<%if current_user.is_distributor?%>
+  <div class="control-group">
+    <%= f.label :client_id, :class => 'control-label' %>
+    <div class="controls">
+       <%#= f.collection_select :location_id, @locations, :id, :name, :prompt => true  %>
+       <%= f.collection_select :client_id, Client.order(:name), :id, :name, :prompt => true  %>
+    </div>
+  </div>
+<%end%>
+<%if current_user.is_admin?%>
   <div class="sub-div">
+
     <div class="control-group">
       <%= f.label :distributor_id, :class => 'control-label' %>
       <div class="controls">
@@ -15,18 +29,19 @@
           :id, :full_name, :prompt => true  %>
       </div>
     </div>
-
+<%end%>    
     <%= f.fields_for :invoice do |builder| %>
-    <%= render "invoice_fields", :f => builder %>
+      <%= render "invoice_fields", :f => builder %>
     <% end %>
 
-   
-  </div>
-  <div class="form-actions sales-div-actions">
+  <%if current_user.is_admin?%></div><%end%>
+  <%if current_user.is_admin?%><div class="sales-div-actions"><%end%>
+  <div class="form-actions ">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 sales_path, :class => 'btn' %>
   </div>
+  <%if current_user.is_admin?%></div><%end%>
 <% end %>
 <div class="new-distributor-div">
 </div>  

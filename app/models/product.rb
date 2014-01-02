@@ -7,6 +7,7 @@ class Product < ActiveRecord::Base
 	has_many :invoice_products
 	has_many :invoices, :through => :invoice_products#, :dependent => :destroy
 	
+	validates :name, presence: true
 
 	def available_products(user_id)
 		product_inventory = Inventory.find_by_user_id_and_product_id(user_id,self.id)
@@ -16,23 +17,12 @@ class Product < ActiveRecord::Base
 	def self.available_products(user_id)
 		available_products = []
 		for product in Product.all do
-			product_inventory = Inventory.find_by_user_id_and_product_id(user_id,product.id)
-			p "====================================================Product.name================"
-			p product.name
-			p "product_inventory"
-			p product_inventory
-			p "product_inventory.quantity"
-			p product_inventory.quantity
-			p "product.blocked_products(user_id)"
-			p product.blocked_products(user_id)
-
+			product_inventory = Inventory.find_or_create_by_user_id_and_product_id(user_id,product.id)
 			available_quantity =  product_inventory.quantity - product.blocked_products(user_id)
 			if(available_quantity > 0)
 				available_products << product
 			end	
-			p "available_quantity"
-			p available_quantity
-			p available_products
+			
 		end 
 		return available_products
 	end

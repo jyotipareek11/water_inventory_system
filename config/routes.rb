@@ -6,7 +6,11 @@ WaterInventorySystem::Application.routes.draw do
 
   resources :orders
 
-  resources :sales
+  resources :sales do
+    member do
+      get 'update_state'
+    end 
+  end    
 
   resources :inventories, only: [:index]
 
@@ -15,7 +19,10 @@ WaterInventorySystem::Application.routes.draw do
   resources :purchases do
     member do
       get 'update_state'
-    end  
+    end 
+    collection do
+      get 'orders_from_distributors'
+    end 
   end  
 
   resources :vendors #do

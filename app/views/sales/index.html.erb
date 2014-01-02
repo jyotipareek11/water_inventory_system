@@ -8,11 +8,16 @@
   <thead>
     <tr>
       <th>Count</th>
-      <th> Distributor </th>
+        <%if current_user.is_admin?%>
+          <th> Distributor </th>
+        <%elsif current_user.is_distributor?%>
+          <th> Client </th>
+        <%end%>  
       <th>Sale Items </th>
       <th>Quantity</th>
       <th>Amount</th>
       <th>State</th>
+      <th>Order Date</th>
     </tr>
   </thead>
   <tbody>
@@ -21,14 +26,23 @@
       	<%- invoice = sale.invoice%>
       	<%- count = count+1 %>
       	<td><%= link_to count, sale_path(sale) %></td>
-        <td><%= sale.distributor.name%></td>
+        <%if current_user.is_admin?%>
+          <td><%= link_to sale.distributor.name, "/users/show/"+sale.distributor.id.to_s%></td>
+        <%elsif current_user.is_distributor?%>
+          <td><%=link_to sale.client.name, client_path(sale.client)%></td>
+        <%end%>    
         <td><%= invoice.products.count %></td>
         <td><%= invoice.no_of_unit%></td>
         <td><%= invoice.price_after_discount%></td>
         <td><%= sale.state%></td>
-        <%# if sale.is_ordered?%>
-        	<td><%#= link_to "Mark as Received", update_state_purchase_path(purchase)%></td>
-        <%#end%>
+        <td><%=long_date_format(local_time_zone(sale.created_at))%></td> 
+        <%if current_user.is_distributor? && sale.is_ordered?%>
+          <td><%= link_to "Mark as Delivered", update_state_sale_path(sale)%></td>
+          <td><%= link_to "Cancel Order", sale_path(sale),:method => 'delete',
+                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }
+              %></td>
+
+        <%end%>
       </tr>
     <%end%> 
    </tbody>

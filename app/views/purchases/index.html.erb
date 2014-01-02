@@ -21,6 +21,7 @@
       <th>Quantity</th>
       <th>Amount</th>
       <th>State</th>
+      <th>Order Date</th>
     </tr>
   </thead>
   <tbody>
@@ -36,8 +37,9 @@
         <td><%= invoice.no_of_unit%></td>
         <td><%= invoice.price_after_discount%></td>
         <td><%= purchase.state%></td>
+        <td><%=long_date_format(local_time_zone(purchase.created_at))%></td> 
         <% if purchase.is_ordered?%>
-        	<td><%= link_to "Mark as Received", update_state_purchase_path(purchase)%></td>
+          <td><%= link_to "Mark as Received", update_state_purchase_path(purchase)%></td>
         <%end%>
       </tr>
     <%end%> 
@@ -53,7 +55,7 @@
   <%end%>
 
 <%end%>
-<%= link_to "Create New Purchase",
-            new_purchase_path,
-            :class => 'btn btn-primary' %>
+<%if current_user.is_admin?%>
+  <%= link_to "Create New Purchase",new_purchase_path,:class => 'btn btn-primary' %>
+<%end%>
 

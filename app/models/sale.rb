@@ -4,7 +4,7 @@ class Sale < ActiveRecord::Base
 	belongs_to :distributor, -> { where "role = 'distributor'" }, :class_name => "User", :foreign_key => "distributor_id"#, dependent: :destroy
 	belongs_to :user
 	has_one :invoice, :as=> :invoiceable, :dependent => :destroy
-	
+    belongs_to :client	
 	after_create :create_purchase_for_distributor
 	accepts_nested_attributes_for :invoice,:reject_if => :all_blank, :allow_destroy => true
 
@@ -24,7 +24,6 @@ class Sale < ActiveRecord::Base
     end
 
     def update_state_to_delivered
-    	p "update_state_to_delivered of sales.........................."
     	update_attribute("state", "delivered")
 		self.save!
 		for product in invoice.invoice_products do
@@ -35,7 +34,11 @@ class Sale < ActiveRecord::Base
 			inventory.quantity = inventory.quantity == nil ? product.no_of_unit : inventory.quantity - product.no_of_unit
 			inventory.save!	
 		end	
-	end    	
+	end 
+
+    def update_state_and_inventory
+        update_state_to_delivered
+    end   	
 
     private
 
@@ -62,6 +65,7 @@ class Sale < ActiveRecord::Base
     			d_invoice_product.save!
     		end
     	end
-	end    	
+	end
+
 	
 end

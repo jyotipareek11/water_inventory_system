@@ -7,7 +7,7 @@
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @product.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:created_at) %>:</strong></dt>
-  <dd><%= @product.created_at %></dd>
+  <dd><%= long_date_format(local_time_zone(@product.created_at))%></dd>
 </dl>
 
 <div class="form-actions">

@@ -9,6 +9,7 @@ class Purchase < ActiveRecord::Base
 	
 	scope :purchase_ordered, -> { where(state: 'ordered') }
 	scope :purchase_received, -> { where(state: 'received')}
+	# scope :distributors_order, ->{where('vendor_id IS NULL')}
 
 	states = %w[ordered received] 
 
@@ -22,6 +23,10 @@ class Purchase < ActiveRecord::Base
 	def is_ordered?
 		state == "ordered"
 	end
+
+	def self.distributors_order
+		where('vendor_id IS NULL')
+	end		
 
 	def update_state_and_inventory
 		# update Purchase state
