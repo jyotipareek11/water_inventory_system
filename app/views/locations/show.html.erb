@@ -18,12 +18,6 @@
   <dd><%= @location.country %></dd>
   <dt><strong><%= model_class.human_attribute_name(:created_at) %>:</strong></dt>
   <dd><%= long_date_format(local_time_zone(@location.created_at))%></dd>
-  <% if @location.modified_by%>
-    <dt><strong><%= model_class.human_attribute_name(:modified_by) %>:</strong></dt>
-    <dd><%= @modifier.email %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:modified_date) %>:</strong></dt>
-    <dd><%= long_date_format(local_time_zone(@location.modified_date))%></dd>
-  <%end%>
   
 </dl>
 

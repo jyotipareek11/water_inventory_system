@@ -7,7 +7,7 @@ class Product < ActiveRecord::Base
 	has_many :invoice_products
 	has_many :invoices, :through => :invoice_products#, :dependent => :destroy
 	
-	validates :name, presence: true
+	validates :name, presence: true, uniqueness: true
 
 	def available_products(user_id)
 		product_inventory = Inventory.find_by_user_id_and_product_id(user_id,self.id)

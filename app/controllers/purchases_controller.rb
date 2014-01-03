@@ -24,6 +24,7 @@ class PurchasesController < ApplicationController
   def new
     @purchase = Purchase.new
     invoice = @purchase.build_invoice
+    invoice_product = invoice.invoice_products.build
     # invoice = @purchase.invoice#.build
     # invoice_product = invoice.invoice_products.build-----
     # @products = Product.all
@@ -113,7 +114,7 @@ class PurchasesController < ApplicationController
           # :invoice_attributes => [:id,:no_of_unit,:total_price,:discount,:price_after_discount, :_destroy,
           invoice_attributes: [:id,:no_of_unit,:total_price,:discount,:price_after_discount, :_destroy,
             # :invoice_products_attributes => [:id,:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount, :_destroy]
-            invoice_products_attributes: [:id,:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount,:state, :_destroy]
+            invoice_products_attributes: [:id,:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount,:state,:from, :_destroy]
           ]
         )
     end

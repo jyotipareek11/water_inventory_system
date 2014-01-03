@@ -24,12 +24,16 @@ class DistributorsController < ApplicationController
   end
   
   def create
-    @user = User.create_new_distributor(params[:user][:email],params[:user][:password],@location.id)
+    @user = User.create_new_distributor(params[:user][:email],params[:user][:password],params[:user][:first_name],params[:user][:last_name],@location.id)
      respond_to do |format|
       if @user.save
         format.html { redirect_to location_distributors_path(@location)  , notice: 'Distributor was successfully created.' }
       else
-        format.html { redirect_to new_location_distributor_path(@location), notice: "Email or password cannot be blank" }
+        str= ""
+        @user.errors.full_messages.each do |m|
+          str+= "<div>"+m+"</div>"
+        end  
+        format.html { redirect_to new_location_distributor_path(@location), notice: str}
       end
     end
   end  

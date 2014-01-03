@@ -15,7 +15,7 @@
   <div class="control-group">
     <%= f.label :unit_price, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :unit_price, :class => 'text_field' %>
+      <%= f.text_field :unit_price, :class => 'text_field purchase-unit-price' %>
     </div>
   </div>
   <div class="control-group">
@@ -37,5 +37,6 @@
     </div>
   </div>
   <%= f.hidden_field :state, :value => "ordered"%>
+   <%= f.hidden_field :from, :value => "purchase"%>
   <%= link_to_remove_association "Remove Product", f %>  
 </div>

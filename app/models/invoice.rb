@@ -4,11 +4,20 @@ class Invoice < ActiveRecord::Base
 	
 	has_many :invoice_products
 	has_many :products, :through => :invoice_products, :dependent => :destroy
-
+	#validates :invoice_products, presence: true
 	accepts_nested_attributes_for :invoice_products, :reject_if => :all_blank, :allow_destroy => true
 
 
    	after_initialize :init
+
+   #	validate :must_have_children
+
+  	def must_have_children
+    	if invoice_products.empty? or invoice_products.all? {|invoice_product| invoice_product.marked_for_destruction? }
+      		errors.add(:base, 'Must have at least one invoice_products child')
+    	end
+  	end
+
 
     def init
       self.no_of_unit  ||= 0
@@ -27,4 +36,5 @@ class Invoice < ActiveRecord::Base
 						 price_after_discount: (self.price_after_discount.to_f + p_price_after_discount.to_f)
 						 )
 	end	
+	
 end

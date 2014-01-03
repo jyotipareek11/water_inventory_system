@@ -19,7 +19,8 @@
 
 var ready;
 ready = function(){
-	
+
+
 	$('input.create-purchase').click(function(){
 		if($('#purchase_vendor_id :selected').text() == "Please select"){
 			alert("Please select vendor and Products");
@@ -74,6 +75,12 @@ ready = function(){
       .on("cocoon:after-remove", function() {
         console.log("after remove");
       });
+$('#purchase-unit-price').keyup(function () { alert('test'); });
+
+ //    $('.purchase-unit-price').live('blur', function(){
+	// 	alert("heyy");
+	// });
+	  
 
 
 };

@@ -2,6 +2,7 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
+<% if @vendors.count > 0%>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -40,7 +41,9 @@
     <% end %>
   </tbody>
 </table>
-
+<%else%>
+  <h4>No Any Vendors</h4>
+<%end%>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_vendor_path,
             :class => 'btn btn-primary' %>

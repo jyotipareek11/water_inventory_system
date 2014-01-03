@@ -95,7 +95,7 @@ class SalesController < ApplicationController
     def sale_params
       params.require(:sale).permit(:location_id, :distributor_id, :total_quantity, :total_amout, :discount, :total_after_discount,:client_id,
           :invoice_attributes => [:no_of_unit,:total_price,:discount,:price_after_discount,
-            :invoice_products_attributes => [:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount,:state, :_destroy]
+            :invoice_products_attributes => [:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount,:state, :from, :_destroy]
           ]
         )
     end
