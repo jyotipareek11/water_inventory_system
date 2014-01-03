@@ -4,37 +4,41 @@
     <div class="controls">
        <%#= f.collection_select :location_id, @locations, :id, :name, :prompt => true  Product.available_products%>
        <%#= f.collection_select :product_id, Product.order(:name), :id, :name, :prompt => true  %>
-       <%= f.collection_select :product_id, Product.available_products(current_user.id), :id, :name, :prompt => true  %>
+       <%= f.collection_select :product_id, Product.available_products(current_user.id), :id, :name, 
+          {:prompt => true }, {:class=>'sales-product-select'} %>
+       <span style="color:gray;font-weight:bold; padding-left:10px" class="avail-unit" rel=""></span> 
     </div>
   </div>
   <div class="control-group">
     <%= f.label :no_of_unit, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :no_of_unit, :class => 'text_field' %>
+      <%= f.text_field :no_of_unit, :class => 'text_field sale-no-of-unit input-only-numbers' %>
+       <span class="avail-no-of-units" rel=""></span> 
     </div>
+
   </div>
   <div class="control-group">
     <%= f.label :unit_price, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :unit_price, :class => 'text_field' %>
+      <%= f.text_field :unit_price, :class => 'text_field input-only-numbers sale-unit-price' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :total_price, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :total_price, :class => 'text_field' %>
-    </div>
+      <%= f.text_field :total_price, :class => 'text_field input-only-numbers' %>
+    </div>  
   </div>
   <div class="control-group">
     <%= f.label :discount, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :discount, :class => 'text_field' %>
+      <%= f.text_field :discount, :class => 'text_field input-only-numbers' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :price_after_discount, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :price_after_discount, :class => 'text_field' %>
+      <%= f.text_field :price_after_discount, :class => 'text_field input-only-numbers' %>
     </div>
   </div>
   <%= f.hidden_field :state, :value => "blocked"%>

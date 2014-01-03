@@ -48,34 +48,127 @@ ready = function(){
 	$('.sales-div-actions').hide();	
 	$(".new-distributor-div").empty();	
 	$('#sale_location_id').change(function(){
-	$(".new-distributor-div").empty();
-		// var location = $("#sale_location_id option:selected").text()
-		var location = $(this).find(":selected").text()
-		console.log(location,"new location");
-		var options = $(distributors).filter("optgroup[label='"+location+"']").html();
-		console.log(options,"options");
-		if(options){
-			$('#sale_distributor_id').html(options);
-			$('#sale_distributor_id').parents().find('.sub-div').show();	
-			$('.sales-div-actions').show();
-		}
-		else{
-			var link = "<h4>No any Distributor for "+location+"</h4><a href='/locations/"+ this.value+"/distributors/new' class='btn btn-mini btn-danger'>Add New Distributor</a>"
-			$(".new-distributor-div").append(link);			
-			$('#sale_distributor_id').empty();
-			$('#sale_distributor_id').parents().find('.sub-div').hide();	
+		$(".new-distributor-div").empty();
+		if(this.value.length == 0){
+			$('.sub-div').hide();
 			$('.sales-div-actions').hide();	
-		}
+			alert("Please select any Location");
+		}else{
+
+			// var location = $("#sale_location_id option:selected").text()
+			var location = $(this).find(":selected").text()
+			console.log(location,"new location");
+			var options = $(distributors).filter("optgroup[label='"+location+"']").html();
+			console.log(options,"options");
+			if(options){
+				$('#sale_distributor_id').html(options);
+				$('#sale_distributor_id').parents().find('.sub-div').show();	
+				$('.sales-div-actions').show();
+			}
+			else{
+				var link = "<h4>No any Distributor for "+location+"</h4><a href='/locations/"+ this.value+"/distributors/new' class='btn btn-mini btn-danger'>Add New Distributor</a>"
+				$(".new-distributor-div").append(link);			
+				$('#sale_distributor_id').empty();
+				$('#sale_distributor_id').parents().find('.sub-div').hide();	
+				$('.sales-div-actions').hide();	
+			}
+		}	
+	
 	});
 
+	// $('.sales-product-select').change(function(){
+	$(document).on('change', '.sales-product-select', function(){		
+		var ele = $(this).next('.avail-unit');
+		var availEle = $(this).parent().parent().next().find('.avail-no-of-units');
+		ele.html("");
+		ele.attr("rel",0);
+		availEle.attr("rel",0);
+		if(this.value.length > 0){
+	     	jQuery.getJSON("/products/"+$(this).val()+"/available_quantity_in_inventory",function(data){
+          		console.log(data);
+          		ele.html("Available Units In Stock: "+data);
+          		ele.attr("rel",data);
+          		availEle.attr("rel",data);
+			})
+		}
+		else{
+			ele.html("");
+			ele.attr("rel",0);
+			availEle.attr("rel",0);
+			alert("Please select any Product");	
+		}			
+	});
 
-	$('.new-purchase-div').on("cocoon:before-remove", function() {
-        console.log("hey before remove");
-      })
-      .on("cocoon:after-remove", function() {
-        console.log("after remove");
-      });
-$('#purchase-unit-price').keyup(function () { alert('test'); });
+	$(document).on('click','.create-sale-button',function(){
+		var readyForSubmit = true
+		var errorUl = $('.sales-error-div').find('ul');
+		errorUl.empty();
+		// validation for product 
+		if($('.sales-product-select').val().length <= 0){
+			$(errorUl).append('<li>Please Select Product from Product List</li>');
+			readyForSubmit = false	
+		}
+		// validation for no of unit to be more then 0 and less or equall to available units in stock
+		if(parseInt($('.sale-no-of-unit').val()) <= 0){
+			$(errorUl).append('<li>Please enter No of Unit</li>');
+			readyForSubmit = false	
+		}
+		else{
+			require_unit = parseInt($('.sale-no-of-unit').val());
+			avail_unit = parseInt($('.sale-no-of-unit').next('.avail-no-of-units').attr('rel'));
+			if(require_unit > avail_unit){
+				console.log("inside error");
+				$(errorUl).append('<li>No of Unit should be less then or equal to available unit in sock</li>');
+				readyForSubmit = false	
+			}
+		}
+		// validation for unit price
+		if(parseInt($('.sale-unit-price').val()) <= 0){
+			$(errorUl).append('<li>Please Enter Unit Price</li>');
+			readyForSubmit = false	
+		}
+		console.log(readyForSubmit,"readyForSubmit");
+		if(readyForSubmit){
+			return true;
+		}
+		else{
+			$('.sales-error-div').show();
+			return false;
+		}
+
+		
+	})
+
+
+	 // $(".input-only-numbers").keydown(function (event) {
+	 $(document).on('keydown','.input-only-numbers',function(event){
+
+        if (event.shiftKey == true) {
+            event.preventDefault();
+        }
+
+        if ((event.keyCode >= 48 && event.keyCode <= 57) || 
+            (event.keyCode >= 96 && event.keyCode <= 105) || 
+            event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+            event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
+
+        } else {
+            event.preventDefault();
+        }
+
+        if($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+            event.preventDefault(); 
+        //if a decimal has been added, disable the "."-button
+
+    });
+
+// 	$('.new-purchase-div').on("cocoon:before-remove", function() {
+//         console.log("hey before remove");
+//       })
+//       .on("cocoon:after-remove", function() {
+//         console.log("after remove");
+//       });
+// $('#purchase-unit-price').keyup(function () { alert('test'); });
 
  //    $('.purchase-unit-price').live('blur', function(){
 	// 	alert("heyy");

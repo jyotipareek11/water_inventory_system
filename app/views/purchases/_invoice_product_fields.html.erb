@@ -9,31 +9,31 @@
 	<div class="control-group">
     <%= f.label :no_of_unit, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :no_of_unit, :class => 'text_field' %>
+      <%= f.text_field :no_of_unit, :class => 'text_field input-only-numbers' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :unit_price, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :unit_price, :class => 'text_field purchase-unit-price' %>
+      <%= f.text_field :unit_price, :class => 'text_field purchase-unit-price input-only-numbers' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :total_price, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :total_price, :class => 'text_field' %>
+      <%= f.text_field :total_price, :class => 'text_field input-only-numbers' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :discount, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :discount, :class => 'text_field' %>
+      <%= f.text_field :discount, :class => 'text_field input-only-numbers' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :price_after_discount, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :price_after_discount, :class => 'text_field' %>
+      <%= f.text_field :price_after_discount, :class => 'text_field input-only-numbers' %>
     </div>
   </div>
   <%= f.hidden_field :state, :value => "ordered"%>

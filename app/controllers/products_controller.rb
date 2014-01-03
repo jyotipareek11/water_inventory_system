@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy,:available_quantity_in_inventory]
 
   # GET /products
   # GET /products.json
@@ -60,6 +60,16 @@ class ProductsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+  def available_quantity_in_inventory
+    user_id = current_user.id
+    product_inventory = Inventory.find_or_create_by_user_id_and_product_id(user_id,params[:id])
+    @available_quantity =  product_inventory.quantity - @product.blocked_products(user_id)
+    respond_to do |format|
+      format.json { render json: @available_quantity }
+    end
+  end    
 
   private
     # Use callbacks to share common setup or constraints between actions.

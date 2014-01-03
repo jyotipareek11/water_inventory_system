@@ -6,23 +6,27 @@ class User < ActiveRecord::Base
   
   # has_many :clients, :class_name => "Client", :foreign_key => "distributor_id", :conditions => "role = 'distributer'" 
   scope :distributors, ->{where(role:'distributor')}
-  has_many :clients, :foreign_key => "distributor_id", dependent: :destroy#, -> { where "users.role = 'distributer'" }, :class_name => "Client", :foreign_key => "distributer_id"
-  #has_many :admin_sales, -> { where "users.role = 'admin'" }, :class_name => "Sale", dependent: :destroy
-  #has_many :distributor_sales, -> { where "users.role = 'distributor'" }, :class_name => "Sale", dependent: :destroy
+ has_many :clients, :foreign_key => "distributor_id", dependent: :destroy#, -> { where "users.role = 'distributer'" }, :class_name => "Client", :foreign_key => "distributer_id"
+  # has_many :admin_sales, -> { where "users.role = 'admin'" }, :class_name => "Sale", dependent: :destroy
+  # has_many :distributor_sales, -> { where "users.role = 'distributor'" }, :class_name => "Sale", dependent: :destroy
   has_many :sales, dependent: :destroy
-  has_many :vendors, -> { where "users.role = 'admin'" }, dependent: :destroy
+
+  has_many :vendors, foreign_key: "admin_id", dependent: :destroy
+  
   has_many :purchases, dependent: :destroy
   has_many :inventories, dependent: :destroy
 
   belongs_to :location
+  validates :first_name,:role, presence: true
+
  # belongs_to :sales , -> { where "users.role = 'distributor'" }
  
   ROLES = %w[admin distributor client]     
   
-  def self.create_new_distributor(email, password,location_id)
-    user = User.new({ :email => email, :password => password, :location_id => location_id})
+  def self.create_new_distributor(email, password,first_name,last_name,location_id)
+    user = User.new({:email => email, :password => password, :first_name=>first_name,:last_name=>last_name,:location_id => location_id})
     user.role = "distributor"
-    user.save
+    user.save if user.valid?
     return user
   end
 

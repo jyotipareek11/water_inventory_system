@@ -8,6 +8,8 @@ class Sale < ActiveRecord::Base
 	after_create :create_purchase_for_distributor
 	accepts_nested_attributes_for :invoice,:reject_if => :all_blank, :allow_destroy => true
 
+    validates :distributor_id,:location_id, presence: true
+
 	states = %w[order_initiated delivered]  
 
 	def is_order_initiated?

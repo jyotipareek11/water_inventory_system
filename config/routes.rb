@@ -14,7 +14,11 @@ WaterInventorySystem::Application.routes.draw do
 
   resources :inventories, only: [:index]
 
-  resources :products
+  resources :products do 
+    member do
+      get 'available_quantity_in_inventory'
+    end
+  end  
 
   resources :purchases do
     member do
