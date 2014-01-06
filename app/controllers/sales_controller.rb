@@ -18,7 +18,7 @@ class SalesController < ApplicationController
     @sale = Sale.new
     invoice = @sale.build_invoice
     invoice_product = invoice.invoice_products.build
-
+    @display_error = false
     # sale_product = @sale.sale_products.build
     # order.order_products.build 
   end
@@ -38,6 +38,7 @@ class SalesController < ApplicationController
         format.html { redirect_to @sale, notice: 'Sale was successfully created.' }
         format.json { render action: 'show', status: :created, location: @sale }
       else
+        @display_error = true
         format.html { render action: 'new' }
         format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
@@ -95,7 +96,7 @@ class SalesController < ApplicationController
     def sale_params
       params.require(:sale).permit(:location_id, :distributor_id, :total_quantity, :total_amout, :discount, :total_after_discount,:client_id,
           :invoice_attributes => [:no_of_unit,:total_price,:discount,:price_after_discount,
-            :invoice_products_attributes => [:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount,:state, :from, :_destroy]
+            :invoice_products_attributes => [:product_id,:no_of_unit,:unit_price,:total_price,:discount,:price_after_discount, :user_id,:state, :from,:_destroy]
           ]
         )
     end

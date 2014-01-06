@@ -26,21 +26,23 @@
   <div class="control-group">
     <%= f.label :total_price, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :total_price, :class => 'text_field input-only-numbers' %>
+      <%= f.text_field :total_price, :class => 'text_field input-only-numbers sale-total-price',
+        :disabled=>true %>
     </div>  
   </div>
   <div class="control-group">
     <%= f.label :discount, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :discount, :class => 'text_field input-only-numbers' %>
+      <%= f.text_field :discount, :class => 'text_field input-only-numbers sale-discount' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :price_after_discount, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :price_after_discount, :class => 'text_field input-only-numbers' %>
+      <%= f.text_field :price_after_discount, :class => 'text_field input-only-numbers sale-price-after-discount', :disabled=>true %>
     </div>
   </div>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
   <%= f.hidden_field :state, :value => "blocked"%>
   <%= f.hidden_field :from, :value => "sale"%>
   <%= link_to_remove_association "Remove Product", f %>

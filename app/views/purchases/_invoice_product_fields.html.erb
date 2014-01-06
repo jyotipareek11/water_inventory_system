@@ -9,7 +9,7 @@
 	<div class="control-group">
     <%= f.label :no_of_unit, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :no_of_unit, :class => 'text_field input-only-numbers' %>
+      <%= f.text_field :no_of_unit, :class => 'text_field input-only-numbers purchase-no-of-unit' %>
     </div>
   </div>
   <div class="control-group">
@@ -21,22 +21,25 @@
   <div class="control-group">
     <%= f.label :total_price, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :total_price, :class => 'text_field input-only-numbers' %>
+      <%= f.text_field :total_price, :class => 'text_field input-only-numbers purchase-total-price',
+        :disabled=>true %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :discount, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :discount, :class => 'text_field input-only-numbers' %>
+      <%= f.text_field :discount, :class => 'text_field input-only-numbers purchase-discount' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :price_after_discount, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :price_after_discount, :class => 'text_field input-only-numbers' %>
+      <%= f.text_field :price_after_discount, 
+          :class => 'text_field input-only-numbers purchase-price-after-discount', :disabled=>true %>
     </div>
   </div>
+  
   <%= f.hidden_field :state, :value => "ordered"%>
-   <%= f.hidden_field :from, :value => "purchase"%>
+  <%= f.hidden_field :from, :value => "purchase"%>
   <%= link_to_remove_association "Remove Product", f %>  
 </div>

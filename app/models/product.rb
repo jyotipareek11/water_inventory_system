@@ -14,6 +14,7 @@ class Product < ActiveRecord::Base
 		return product_inventory.quantity - blocked_products(user_id)
 	end
 
+	
 	def self.available_products(user_id)
 		available_products = []
 		for product in Product.all do
@@ -36,5 +37,27 @@ class Product < ActiveRecord::Base
 			end
 		end
 		return blocked_no_of_unit
+	end	
+
+	def delivered_products(user_id)
+		delivered_no_of_unit = 0
+		delivered = self.invoice_products.where("state=? and user_id=?",'delivered',user_id ).to_a
+		if delivered
+			for product in delivered do
+				delivered_no_of_unit = delivered_no_of_unit +product.no_of_unit
+			end
+		end
+		return delivered_no_of_unit
+	end	
+
+	def ordered_products user_id
+		ordered_no_of_unit = 0
+		ordered = self.invoice_products.where("state=? and user_id=?",'ordered',user_id ).to_a
+		if ordered
+			for product in ordered do
+				ordered_no_of_unit = ordered_no_of_unit +product.no_of_unit
+			end
+		end
+		return ordered_no_of_unit
 	end		
-end
+end			

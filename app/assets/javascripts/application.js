@@ -47,6 +47,7 @@ ready = function(){
 	$('#sale_distributor_id').parents().find('.sub-div').hide();	
 	$('.sales-div-actions').hide();	
 	$(".new-distributor-div").empty();	
+	// event for location change in sale
 	$('#sale_location_id').change(function(){
 		$(".new-distributor-div").empty();
 		if(this.value.length == 0){
@@ -99,45 +100,45 @@ ready = function(){
 		}			
 	});
 
-	$(document).on('click','.create-sale-button',function(){
-		var readyForSubmit = true
-		var errorUl = $('.sales-error-div').find('ul');
-		errorUl.empty();
-		// validation for product 
-		if($('.sales-product-select').val().length <= 0){
-			$(errorUl).append('<li>Please Select Product from Product List</li>');
-			readyForSubmit = false	
-		}
-		// validation for no of unit to be more then 0 and less or equall to available units in stock
-		if(parseInt($('.sale-no-of-unit').val()) <= 0){
-			$(errorUl).append('<li>Please enter No of Unit</li>');
-			readyForSubmit = false	
-		}
-		else{
-			require_unit = parseInt($('.sale-no-of-unit').val());
-			avail_unit = parseInt($('.sale-no-of-unit').next('.avail-no-of-units').attr('rel'));
-			if(require_unit > avail_unit){
-				console.log("inside error");
-				$(errorUl).append('<li>No of Unit should be less then or equal to available unit in sock</li>');
-				readyForSubmit = false	
-			}
-		}
-		// validation for unit price
-		if(parseInt($('.sale-unit-price').val()) <= 0){
-			$(errorUl).append('<li>Please Enter Unit Price</li>');
-			readyForSubmit = false	
-		}
-		console.log(readyForSubmit,"readyForSubmit");
-		if(readyForSubmit){
-			return true;
-		}
-		else{
-			$('.sales-error-div').show();
-			return false;
-		}
+	// $(document).on('click','.create-sale-button',function(){
+	// 	var readyForSubmit = true
+	// 	var errorUl = $('.sales-error-div').find('ul');
+	// 	errorUl.empty();
+	// 	// validation for product 
+	// 	if($('.sales-product-select').val().length <= 0){
+	// 		$(errorUl).append('<li>Please Select Product from Product List</li>');
+	// 		readyForSubmit = false	
+	// 	}
+	// 	// validation for no of unit to be more then 0 and less or equall to available units in stock
+	// 	if(parseInt($('.sale-no-of-unit').val()) <= 0){
+	// 		$(errorUl).append('<li>Please enter No of Unit</li>');
+	// 		readyForSubmit = false	
+	// 	}
+	// 	else{
+	// 		require_unit = parseInt($('.sale-no-of-unit').val());
+	// 		avail_unit = parseInt($('.sale-no-of-unit').next('.avail-no-of-units').attr('rel'));
+	// 		if(require_unit > avail_unit){
+	// 			console.log("inside error");
+	// 			$(errorUl).append('<li>No of Unit should be less then or equal to available unit in sock</li>');
+	// 			readyForSubmit = false	
+	// 		}
+	// 	}
+	// 	// validation for unit price
+	// 	if(parseInt($('.sale-unit-price').val()) <= 0){
+	// 		$(errorUl).append('<li>Please Enter Unit Price</li>');
+	// 		readyForSubmit = false	
+	// 	}
+	// 	console.log(readyForSubmit,"readyForSubmit");
+	// 	if(readyForSubmit){
+	// 		return true;
+	// 	}
+	// 	else{
+	// 		$('.sales-error-div').show();
+	// 		return false;
+	// 	}
 
 		
-	})
+	// })
 
 
 	 // $(".input-only-numbers").keydown(function (event) {
@@ -162,19 +163,35 @@ ready = function(){
 
     });
 
-// 	$('.new-purchase-div').on("cocoon:before-remove", function() {
-//         console.log("hey before remove");
-//       })
-//       .on("cocoon:after-remove", function() {
-//         console.log("after remove");
-//       });
-// $('#purchase-unit-price').keyup(function () { alert('test'); });
+// setting total price and price after discount based on no_of_units,unit_price and discount for purchase
 
- //    $('.purchase-unit-price').live('blur', function(){
-	// 	alert("heyy");
-	// });
-	  
+	 $(document).on('blur','.purchase-unit-price',function(){
+	 	var ele = $(this),
+	 	 	unit_price = parseInt(ele.val()),
+	 	 	no_of_Unit = parseInt(ele.parent().parent().prev().find('.purchase-no-of-unit').val());
+	 	ele.parent().parent().next().find('.purchase-total-price').val(unit_price*no_of_Unit);
+	 });
 
+	 $(document).on('blur','.purchase-discount',function(){
+	 	var ele = $(this), 
+	 		discount = parseInt(ele.val()),
+	 		total_price = parseInt(ele.parent().parent().prev().find('.purchase-total-price').val());
+	 	ele.parent().parent().next().find('.purchase-price-after-discount').val(total_price-discount);
+	 });
+// setting total price and price after discount based on no_of_units,unit_price and discount for sale
+	 $(document).on('blur','.sale-unit-price',function(){
+	 	var ele = $(this),
+	 	 	unit_price = parseInt(ele.val()),
+	 	  	no_of_Unit = parseInt(ele.parent().parent().prev().find('.sale-no-of-unit').val());
+	 	ele.parent().parent().next().find('.sale-total-price').val(unit_price*no_of_Unit);
+	 });
+
+	 $(document).on('blur','.sale-discount',function(){
+	 	var ele = $(this),
+	 		discount = parseInt(ele.val()),
+	 		total_price = parseInt(ele.parent().parent().prev().find('.sale-total-price').val());
+		ele.parent().parent().next().find('.sale-price-after-discount').val(total_price-discount);
+	 });
 
 };
 

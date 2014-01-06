@@ -2,7 +2,8 @@ class InvoiceProduct < ActiveRecord::Base
 	belongs_to :invoice
 	belongs_to :product
 	belongs_to :user
-	before_create :add_user
+	before_create :set_user
+	before_validation :set_price
 	after_create :update_associations
 	# after_create :update_inventory
 
@@ -29,8 +30,8 @@ class InvoiceProduct < ActiveRecord::Base
 
     def quantity_of_product
     	if self.from == 'sale'
-    		quantity_in_inventory = Inventory.find_by_product_id(self.product_id).quantity
-    		errors.add(:base, "^Inventory does not has this much quantity .. we only have "+quantity_in_inventory.to_s) if self.no_of_unit > quantity_in_inventory
+			quantity_in_inventory = self.product_id ? Product.find_by_id(self.product_id).available_products(self.user_id) : 0
+    		errors.add(:base, "^Inventory does not has this much quantity .. we only have "+quantity_in_inventory.to_s+" units in stock") if self.no_of_unit > quantity_in_inventory
     	end 	
 	end    	
 
@@ -46,7 +47,13 @@ class InvoiceProduct < ActiveRecord::Base
 
 	private
 
-	def add_user
+
+	def set_price
+		self.total_price = self.no_of_unit * self.unit_price
+		self.price_after_discount = self.total_price - self.discount
+	end	
+
+	def set_user
 		self.user = self.invoice.user
 	end		
 

@@ -8,9 +8,12 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:count) %></th>
-      <th><%= model_class.human_attribute_name(:quantity) %></th>
       <th><%= model_class.human_attribute_name(:product_id) %></th>
-      </tr>
+      <th>Available Quantity</th>
+      <th>Blocked Quantity</th>
+      <th>Total Deliverd Quantity</th>
+      <th>Currently Ordered Quantity</th>
+    </tr>
   </thead>
   <tbody>
     <% @inventories.each do |inventory| %>
@@ -18,9 +21,12 @@
         <%- count = count + 1%>
         <%- product = inventory.product%>
         <td><%= count%></td>
-        <td><%= product.available_products(current_user.id) %></td>
         <td><%= product.name %></td>
-        </tr>
+        <td><%= product.available_products(current_user.id) %></td>
+        <td><%= product.blocked_products(current_user.id) %></td>
+        <td><%= product.delivered_products(current_user.id) %></td>
+        <td><%= product.ordered_products(current_user.id) %></td>
+      </tr>
     <% end %>
   </tbody>
 </table>
