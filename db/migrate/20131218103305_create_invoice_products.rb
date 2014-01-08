@@ -2,7 +2,7 @@ class CreateInvoiceProducts < ActiveRecord::Migration
   def change
     create_table :invoice_products do |t|
       t.belongs_to :invoice
-      t.belongs_to :product`
+      t.belongs_to :product
       t.integer :no_of_unit
       t.float :unit_price
       t.float :total_price

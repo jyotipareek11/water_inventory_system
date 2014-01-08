@@ -48,14 +48,23 @@
 
 
 <%else%>
-  <% if @from == 'purchase_order'%>
-    <h4>No Any Purchase Ordered.</h4>
+  <%if Vendor.count == 0 && Product.count == 0%>
+    <h4>No Vendors and Products in System!!! Please create Vendors and Product first.</h4>
+  <%elsif vendor.count ==0%>
+    <h4>No Vendor created in System!!! Please create Vendors first.</h4>
+  <%elsif Product.count ==0%>
+     <h4>No Product created in System!!! Please create Product first.</h4>
   <%else%>
-    <h4>No Any Purchase made.</h4>  
-  <%end%>
+    <% if @from == 'purchase_order'%>
+      <h4>No Any Purchase Ordered.</h4>
+    <%else%>
+      <h4>No Any Purchase made.</h4>  
+    <%end%>
+    <%if current_user.is_admin?%>
+      <%= link_to "Create New Purchase",new_purchase_path,:class => 'btn btn-primary' %>
+    <%end%>
+  <%end%> 
 
 <%end%>
-<%if current_user.is_admin?%>
-  <%= link_to "Create New Purchase",new_purchase_path,:class => 'btn btn-primary' %>
-<%end%>
+
 

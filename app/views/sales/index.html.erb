@@ -50,12 +50,12 @@
 
 
 <%else%>
-<h4>No Any Sales made.</h4>
+  <h4>No Any Sales made.</h4>
 <%end%>
 <% if current_user.inventories.count>0%>
 <%= link_to "Create New Sale",
             new_sale_path,
             :class => 'btn btn-primary' %>
 <%else%>
-	<p>No Stock</p>
+	<h4>No Stock in System!!!</h4>
 <%end%>
