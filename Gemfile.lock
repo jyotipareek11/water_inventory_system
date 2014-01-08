@@ -39,6 +39,7 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     commonjs (0.2.7)
+    custom_error_message (1.1.1)
     devise (3.2.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -139,6 +140,7 @@ DEPENDENCIES
   cancan
   cocoon
   coffee-rails (~> 4.0.0)
+  custom_error_message (~> 1.1.1)
   devise
   jbuilder (~> 1.2)
   jquery-rails
