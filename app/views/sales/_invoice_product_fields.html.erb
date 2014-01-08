@@ -1,7 +1,7 @@
 <div class='nested-fields'>
 <div class="control-group">
     <%= f.label :product_id, :class => 'control-label' %>
-    <div class="controls">
+    <div class="controls product-control">
        <%#= f.collection_select :location_id, @locations, :id, :name, :prompt => true  Product.available_products%>
        <%#= f.collection_select :product_id, Product.order(:name), :id, :name, :prompt => true  %>
        <%= f.collection_select :product_id, Product.available_products(current_user.id), :id, :name, 

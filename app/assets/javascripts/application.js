@@ -29,6 +29,15 @@ ready = function(){
 		return true;
 	});
 
+	$('input.from-distributor').click(function(){
+		if($('#sale_client_id :selected').text() == "Please select"){
+			alert("Please select Client and Products");
+			return false;
+		}
+		return true;
+	});
+
+
 	$('#distributor_location_id').change(function(){
 		if(this.value.length > 0){
 			$.ajax({
@@ -79,7 +88,8 @@ ready = function(){
 
 	// $('.sales-product-select').change(function(){
 	$(document).on('change', '.sales-product-select', function(){		
-		var ele = $(this).next('.avail-unit');
+		var ele = $(this).parents('.product-control').find('.avail-unit');
+		console.log(ele,"ele");
 		var availEle = $(this).parent().parent().next().find('.avail-no-of-units');
 		ele.html("");
 		ele.attr("rel",0);
@@ -165,28 +175,28 @@ ready = function(){
 
 // setting total price and price after discount based on no_of_units,unit_price and discount for purchase
 
-	 $(document).on('blur','.purchase-unit-price',function(){
+	 $(document).on('change','.purchase-unit-price',function(){
 	 	var ele = $(this),
 	 	 	unit_price = parseInt(ele.val()),
 	 	 	no_of_Unit = parseInt(ele.parent().parent().prev().find('.purchase-no-of-unit').val());
 	 	ele.parent().parent().next().find('.purchase-total-price').val(unit_price*no_of_Unit);
 	 });
 
-	 $(document).on('blur','.purchase-discount',function(){
+	 $(document).on('change','.purchase-discount',function(){
 	 	var ele = $(this), 
 	 		discount = parseInt(ele.val()),
 	 		total_price = parseInt(ele.parent().parent().prev().find('.purchase-total-price').val());
 	 	ele.parent().parent().next().find('.purchase-price-after-discount').val(total_price-discount);
 	 });
 // setting total price and price after discount based on no_of_units,unit_price and discount for sale
-	 $(document).on('blur','.sale-unit-price',function(){
+	 $(document).on('change','.sale-unit-price',function(){
 	 	var ele = $(this),
 	 	 	unit_price = parseInt(ele.val()),
 	 	  	no_of_Unit = parseInt(ele.parent().parent().prev().find('.sale-no-of-unit').val());
 	 	ele.parent().parent().next().find('.sale-total-price').val(unit_price*no_of_Unit);
 	 });
 
-	 $(document).on('blur','.sale-discount',function(){
+	 $(document).on('change','.sale-discount',function(){
 	 	var ele = $(this),
 	 		discount = parseInt(ele.val()),
 	 		total_price = parseInt(ele.parent().parent().prev().find('.sale-total-price').val());

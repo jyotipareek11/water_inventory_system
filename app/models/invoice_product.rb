@@ -29,7 +29,7 @@ class InvoiceProduct < ActiveRecord::Base
     end
 
     def quantity_of_product
-    	if self.from == 'sale'
+    	if self.from == 'sale' && self.product_id
 			quantity_in_inventory = self.product_id ? Product.find_by_id(self.product_id).available_products(self.user_id) : 0
     		errors.add(:base, "^Inventory does not has this much quantity .. we only have "+quantity_in_inventory.to_s+" units in stock") if self.no_of_unit > quantity_in_inventory
     	end 	

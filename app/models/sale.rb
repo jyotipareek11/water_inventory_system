@@ -8,9 +8,19 @@ class Sale < ActiveRecord::Base
 	after_create :create_purchase_for_distributor
 	accepts_nested_attributes_for :invoice,:reject_if => :all_blank, :allow_destroy => true
 
-    validates :distributor_id,:location_id, presence: true
+    attr_accessor :user_role
+    validate :sale_attributes
 
 	states = %w[order_initiated delivered]  
+
+    def sale_attributes
+       if self.user_role == 'admin'
+            errors.add(:base,"Please select Distributor") unless self.distributor_id.present?
+            errors.add(:base,"Please select Location") unless self.location_id.present?
+        else self.user_role == 'distributor'
+            errors.add(:base,"Please select Client") unless self.client_id.present?
+        end            
+    end        
 
 	def is_order_initiated?
 		state == "order_initiated"

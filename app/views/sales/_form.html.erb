@@ -5,7 +5,7 @@
 <%= display_error_block(@sale)%>
 
 <%= form_for @sale, :html => { :class => 'form-horizontal' } do |f| %>
-
+  <div><%= f.hidden_field :user_role, :value => current_user.role %></div>
 <%if current_user.is_admin?%>
   <div class="control-group">
     <%= f.label :location_id, :class => 'control-label' %>
@@ -46,9 +46,15 @@
       </div>
     <%end%>
   <%end%>
+
+   
   <%if current_user.is_admin? && !@display_error%><div class="sales-div-actions"><%end%>
   <div class="form-actions ">
-    <%= f.submit nil, :class => 'btn btn-primary create-sale-button' %>
+    <%if current_user.is_distributor?%>
+        <%= f.submit nil, :class => 'btn btn-primary create-sale-button from-distributor' %>
+    <%else%>
+        <%= f.submit nil, :class => 'btn btn-primary create-sale-button' %>
+    <%end%>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 sales_path, :class => 'btn' %>
   </div>
