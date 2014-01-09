@@ -10,6 +10,9 @@ WaterInventorySystem::Application.routes.draw do
     collection do 
       get 'monthly_invoicing'
       post 'invoice_report'
+      post 'invoice_report_to_pdf'
+      get 'monthly_inventory'
+      post 'inventory_report'
     end
   end  
 

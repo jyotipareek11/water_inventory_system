@@ -1,0 +1,45 @@
+<%- model_class = Inventory -%>
+<%- count = 0%>
+<% total_quantity = 0%>
+<div class="page-header">
+  <h1><%= @distributor.full_name%> Inventory Report</h1>
+</div>
+<% if @inventories.count > 0%>
+  <h3><%= @distributor.full_name%>'s Inventory Report</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th><%= model_class.human_attribute_name(:product_id) %></th>
+      <th>Available Quantity</th>
+      <th>Blocked Quantity</th>
+      <th>Total Deliverd Quantity</th>
+      <th>Currently Ordered Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @inventories.each do |inventory| %>
+      <tr>
+        <%- count = count + 1%>
+        <%- product = inventory.product%>
+        <td><%= count%></td>
+        <td><%= product.name %></td>
+        <td><%= product.available_products(@distributor.id) %></td>
+        <% total_quantity = total_quantity + product.available_products(@distributor.id)%>
+        <td><%= product.blocked_products(@distributor.id) %></td>
+        <td><%= product.delivered_products(@distributor.id) %></td>
+        <td><%= product.ordered_products(@distributor.id) %></td>
+      </tr>
+    <% end %>
+     <tr><td colspan=7 class="total-class">Total Available Quantity : <%= total_quantity%></td></tr>
+  </tbody>
+</table>
+
+<p>
+  Download:
+  <%= link_to "Excel", "/reports/inventory_report.xls?distributor_id="+@distributor.id.to_s,method: "post" %> 
+</p>
+
+<%else%>
+<h4>No Stock in <%=@distributor.full_name%>'s Inventory.</h4>
+<%end%>

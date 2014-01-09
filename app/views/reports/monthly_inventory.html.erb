@@ -1,0 +1,30 @@
+<div class="reporting-div">
+<h4>Please selct Distributor for Inventory report</h4>
+<br/>
+<%= form_tag("/reports/inventory_report", method: "post", class: 'form-horizontal' )  do%>
+	<div class="control-group">
+      <%= label_tag 'distributor_id', nil,:class => 'control-label' %>
+      <div class="controls">
+      <%= select_tag 'distributor_id',option_groups_from_collection_for_select(Location.order(:name),:distributors, :name, 
+          :id, :full_name) %>
+    </div>
+    </div>
+
+	<!-- <div class="control-group">
+		<%#= label_tag 'start_date',nil,class: 'control-label'%>
+		<div class="controls">
+			<%#= text_field_tag 'start_date',nil, class: 'datepicker'  %>
+		</div>	
+	</div>	
+	<div class="control-group">
+		<%#= label_tag 'end_date', nil, class: 'control-label'%>
+		<div class="controls">
+			<%#= text_field_tag 'end_date',nil , class: 'datepicker' %>
+		</div>
+	</div>	 -->
+	<div class="form-actions">	
+  		<%= submit_tag("Generate") %>
+  	</div>	
+
+<%end%>	
+</div>

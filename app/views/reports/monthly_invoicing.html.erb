@@ -1,15 +1,15 @@
 <div class="reporting-div">
 <h4>Please selct Start Date and End Date for Invoice report</h4>
-
-<%= form_tag("/reports/invoice_report", method: "post")  do%>
+<br/>
+<%= form_tag("/reports/invoice_report", method: "post", class: 'form-horizontal' )  do%>
 	<div class="control-group">
-		<%= label_tag 'Start Date'%>
+		<%= label_tag 'invoice_start_date',nil,class: 'control-label'%>
 		<div class="controls">
 			<%= text_field_tag 'invoice_start_date',nil, class: 'datepicker'  %>
 		</div>	
 	</div>	
 	<div class="control-group">
-		<%= label_tag 'End Date'%>
+		<%= label_tag 'invoice_end_date', nil, class: 'control-label'%>
 		<div class="controls">
 			<%= text_field_tag 'invoice_end_date',nil , class: 'datepicker' %>
 		</div>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <%- count = 0%>
+  <% total_quantity = 0%>
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">#</Data></Cell>
+        <Cell><Data ss:Type="String">Product Name</Data></Cell>
+        <Cell><Data ss:Type="String">Available Quantity</Data></Cell>
+        <Cell><Data ss:Type="String">Blocked Quantity</Data></Cell>
+        <Cell><Data ss:Type="String">Total Deliverd Quantity</Data></Cell>
+        <Cell><Data ss:Type="String">Currently Ordered Quantity</Data></Cell>
+      </Row>
+    <% @inventories.each do |inventory| %>
+     <%- count = count + 1%>
+        <%- product = inventory.product%>
+      <Row>
+        <Cell><Data ss:Type="Number"><%= count %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= product.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= product.available_products(@distributor.id) %></Data></Cell>
+        <% total_quantity = total_quantity + product.available_products(@distributor.id)%>
+        <Cell><Data ss:Type="Number"><%= product.blocked_products(@distributor.id) %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= product.delivered_products(@distributor.id) %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= product.ordered_products(@distributor.id) %></Data></Cell>
+      </Row>
+      
+    <% end %>
+    <Row><Cell><Data ss:Type="String">Total Available Quantity :  <%= total_quantity%></Data></Cell></Row>
+    </Table>
+  </Worksheet>
+</Workbook>
