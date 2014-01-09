@@ -16,10 +16,12 @@
 //= require turbolinks
 //= require_tree .
 //= require cocoon
+//= require jquery.ui.all
 
 var ready;
 ready = function(){
 
+	$('.datepicker').datepicker();
 
 	$('input.create-purchase').click(function(){
 		if($('#purchase_vendor_id :selected').text() == "Please select"){

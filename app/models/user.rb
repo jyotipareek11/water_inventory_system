@@ -59,5 +59,17 @@ class User < ActiveRecord::Base
     # purchases.distributors_order.to_a
   end  
 
+  def delivered_sales
+    sales.delivered
+  end
+
+  def all_delivered_sales
+    sales.delivered.to_a
+  end
+  
+  def order_initiated_sales
+    sales.order_initiated.to_a
+  end
+
 
 end

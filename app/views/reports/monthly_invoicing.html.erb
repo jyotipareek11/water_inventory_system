@@ -1,0 +1,22 @@
+<div class="reporting-div">
+<h4>Please selct Start Date and End Date for Invoice report</h4>
+
+<%= form_tag("/reports/invoice_report", method: "post")  do%>
+	<div class="control-group">
+		<%= label_tag 'Start Date'%>
+		<div class="controls">
+			<%= text_field_tag 'invoice_start_date',nil, class: 'datepicker'  %>
+		</div>	
+	</div>	
+	<div class="control-group">
+		<%= label_tag 'End Date'%>
+		<div class="controls">
+			<%= text_field_tag 'invoice_end_date',nil , class: 'datepicker' %>
+		</div>
+	</div>	
+	<div class="form-actions">	
+  		<%= submit_tag("Generate") %>
+  	</div>	
+  
+<%end%>	
+</div>

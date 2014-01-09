@@ -11,13 +11,16 @@ class Sale < ActiveRecord::Base
     attr_accessor :user_role
     validate :sale_attributes
 
+    scope :delivered, -> { where(state: 'delivered') } 
+    scope :order_initiated, -> { where(state: 'order_initiated') }
+
 	states = %w[order_initiated delivered]  
 
     def sale_attributes
        if self.user_role == 'admin'
             errors.add(:base,"Please select Distributor") unless self.distributor_id.present?
             errors.add(:base,"Please select Location") unless self.location_id.present?
-        else self.user_role == 'distributor'
+        elsif self.user_role == 'distributor' && self.user.role == 'distributor'
             errors.add(:base,"Please select Client") unless self.client_id.present?
         end            
     end        

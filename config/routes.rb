@@ -6,6 +6,13 @@ WaterInventorySystem::Application.routes.draw do
 
   resources :orders
 
+  resources :reports do
+    collection do 
+      get 'monthly_invoicing'
+      post 'invoice_report'
+    end
+  end  
+
   resources :sales do
     member do
       get 'update_state'

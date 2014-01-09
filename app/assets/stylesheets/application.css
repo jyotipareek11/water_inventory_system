@@ -11,6 +11,9 @@
  *= require_self
  *= require_tree .
  */
+ /*
+ *= require jquery.ui.all
+ */
 .navbar-fixed-top, .navbar-fixed-bottom {
 	position: relative !important;
 }
@@ -19,4 +22,14 @@
 }
 [class*="span"] {
 	min-height: 500px !important;
+}
+.reporting-div{
+	padding:10px;
+}
+.total-class{
+	font-size: 1.3em;
+	font-weight: bolder;
+}
+.padd-left15{
+	padding-left: 15px;
 }

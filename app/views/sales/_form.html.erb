@@ -4,6 +4,7 @@
 </div>
 <%= display_error_block(@sale)%>
 
+
 <%= form_for @sale, :html => { :class => 'form-horizontal' } do |f| %>
   <div><%= f.hidden_field :user_role, :value => current_user.role %></div>
 <%if current_user.is_admin?%>
