@@ -52,6 +52,11 @@
     <tr><td colspan=7 class="total-class">Total Amount : <%= total_amount%></td></tr>
    </tbody>
    </table>    
+
+<p>
+  Download:
+  <%= link_to "Excel", "/reports/invoice_report.xls?distributor_id="+@distributor.id.to_s,method: "post" %> 
+</p>
 <%else%>
   <h4>No Any Sales Delivered Yet.</h4>
 <%end%>

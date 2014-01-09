@@ -27,16 +27,7 @@ class ReportsController < ApplicationController
 			format.html
 			format.xls
 		end	
-	end	
-
-	def show
-
 	end		
 
-	def 	
 
-	def invoice_report_to_pdf 
-   		kit = PDFKit.new(render_to_string(:action => "reports/invoice_report"))
-   		send_data(kit.to_pdf, :type => :pdf) 
-	end 	
 end
