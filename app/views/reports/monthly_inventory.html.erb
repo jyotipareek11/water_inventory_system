@@ -5,23 +5,10 @@
 	<div class="control-group">
       <%= label_tag 'distributor_id', nil,:class => 'control-label' %>
       <div class="controls">
-      <%= select_tag 'distributor_id',option_groups_from_collection_for_select(Location.order(:name),:distributors, :name, 
+      <%= select_tag 'distributor_id',option_groups_from_collection_for_select(Location.active.order(:name).to_a,:distributors, :name, 
           :id, :full_name) %>
     </div>
     </div>
-
-	<!-- <div class="control-group">
-		<%#= label_tag 'start_date',nil,class: 'control-label'%>
-		<div class="controls">
-			<%#= text_field_tag 'start_date',nil, class: 'datepicker'  %>
-		</div>	
-	</div>	
-	<div class="control-group">
-		<%#= label_tag 'end_date', nil, class: 'control-label'%>
-		<div class="controls">
-			<%#= text_field_tag 'end_date',nil , class: 'datepicker' %>
-		</div>
-	</div>	 -->
 	<div class="form-actions">	
   		<%= submit_tag("Generate") %>
   	</div>	
