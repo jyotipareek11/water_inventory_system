@@ -13,7 +13,6 @@ class InvoiceProduct < ActiveRecord::Base
 
 	
 	validates :product_id, presence: {message: "^Please Select product" }
-	validates :product_id, uniqueness: {message: "^Product already selected in previous option. Please select different product for different option" }
 	validates :no_of_unit, presence: {message: "^Must have at least 1 no of unit" }, numericality: {greater_than: 0, only_integer: true, message: "^No of Unit Must be greater then 0 and only Integer" }
 	validates :unit_price, presence: {message: "^Must have unit price" }, numericality: {greater_than: 0, message: "^Unit Price Must be greater then 0" }
 	validates :total_price, presence: {message: "^Must have total price" }, numericality: {greater_than: 0, message: "^Total Price Must be greater then 0" }
@@ -28,7 +27,7 @@ class InvoiceProduct < ActiveRecord::Base
       self.price_after_discount  ||= 0 
       self.unit_price ||=0  
     end
-
+    	
     def quantity_of_product
     	if self.from == 'sale' && self.product_id
     		quantity_in_inventory = self.product_id ? Product.find_by_id(self.product_id).available_products(self.user_id) : 0

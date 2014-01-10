@@ -60,11 +60,11 @@
     <%else%>
       <h4>No Any Purchase made.</h4>  
     <%end%>
-    <%if current_user.is_admin?%>
-      <%= link_to "Create New Purchase",new_purchase_path,:class => 'btn btn-primary' %>
-    <%end%>
+    
   <%end%> 
 
 <%end%>
 
-
+<%if current_user.is_admin?%>
+      <%= link_to "Create New Purchase",new_purchase_path,:class => 'btn btn-primary' %>
+    <%end%>

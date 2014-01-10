@@ -6,7 +6,7 @@ class Invoice < ActiveRecord::Base
 	has_many :products, :through => :invoice_products, :dependent => :destroy
 	#validates :invoice_products, presence: true
 	accepts_nested_attributes_for :invoice_products, :reject_if => :all_blank, :allow_destroy => true
-
+	validate :check_for_product_repetition
 
    	after_initialize :init
 
@@ -27,6 +27,15 @@ class Invoice < ActiveRecord::Base
       self.received ||= false
     end
 
+    def check_for_product_repetition
+    	product_ids =[]
+    	self.invoice_products.map do |invoice_product|
+    		product_ids << invoice_product.product_id
+    	end
+    	unless product_ids.uniq.length == product_ids.length
+    		errors.add(:base, '^Product already selected in previous option. Please select different product for different option')
+    	end	
+    end	
 
 
 	def update_values(p_no_of_unit,p_total_price,p_discount,p_price_after_discount)	
