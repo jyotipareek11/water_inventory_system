@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+    @products = Product.active.to_a
   end
 
   # GET /products/1
@@ -54,10 +54,14 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   # DELETE /products/1.json
   def destroy
-    @product.destroy
     respond_to do |format|
-      format.html { redirect_to products_url }
-      format.json { head :no_content }
+      if @product.make_inactive
+        format.html { redirect_to products_url, notice: 'Product deleted successfully.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'show' }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end  
     end
   end
 

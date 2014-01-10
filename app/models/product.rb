@@ -5,10 +5,16 @@ class Product < ActiveRecord::Base
 	# has_many :sales, :through => :sale_products
 	has_one :inventory, :dependent => :destroy
 	has_many :invoice_products
-	has_many :invoices, :through => :invoice_products#, :dependent => :destroy
+	has_many :invoices, :through => :invoice_products
 	
 	validates :name, presence: true, uniqueness: true
+	scope :active, ->{where(is_active: true)}
 
+	def make_inactive
+		update_attribute("is_active",false)
+		self.save!
+	end	
+	
 	def available_products(user_id)
 		product_inventory = Inventory.find_by_user_id_and_product_id(user_id,self.id)
 		return product_inventory.quantity - blocked_products(user_id)

@@ -5,9 +5,9 @@ class ClientsController < ApplicationController
   # GET /clients.json
   def index
     if current_user.is_distributor?
-      @clients = current_user.clients 
+      @clients = current_user.clients.active.to_a 
     else
-      @clients = Client.all
+      @clients = Client.active.to_a
     end
   end
 
@@ -58,10 +58,14 @@ class ClientsController < ApplicationController
   # DELETE /clients/1
   # DELETE /clients/1.json
   def destroy
-    @client.destroy
-    respond_to do |format|
-      format.html { redirect_to clients_url }
-      format.json { head :no_content }
+   respond_to do |format|
+      if @client.make_inactive
+        format.html { redirect_to clients_url , notice: 'Client deleted successfully updated.'}
+        format.json { head :no_content }
+      else
+        format.html { render action: 'show' }
+        format.json { render json: @client.errors, status: :unprocessable_entity }
+      end  
     end
   end
 

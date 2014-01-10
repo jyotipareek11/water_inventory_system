@@ -31,7 +31,7 @@
       	<%- count = count+1 %>
       	<td><%= link_to count, purchase_path(purchase) %></td>
         <% if current_user.is_admin?%>
-          <td><%= purchase.vendor.name%></td>
+          <td><%= purchase.vendor.name if purchase.vendor%></td>
         <%end%>
         <td><%= invoice.products.count %></td>
         <td><%= invoice.no_of_unit%></td>

@@ -12,7 +12,7 @@
     <%= f.label :location_id, :class => 'control-label' %>
     <div class="controls">
        <%#= f.collection_select :location_id, @locations, :id, :name, :prompt => true  %>
-       <%= f.collection_select :location_id, Location.order(:name), :id, :name, :prompt => true  %>
+       <%= f.collection_select :location_id, Location.active.order(:name).to_a, :id, :name, :prompt => true  %>
     </div>
   </div>
 <%end%>
@@ -21,7 +21,7 @@
     <%= f.label :client_id, :class => 'control-label' %>
     <div class="controls">
        <%#= f.collection_select :location_id, @locations, :id, :name, :prompt => true  %>
-       <%= f.collection_select :client_id, Client.order(:name), :id, :name, :prompt => true  %>
+       <%= f.collection_select :client_id, Client.active.order(:name).to_a, :id, :name, :prompt => true  %>
     </div>
   </div>
 <%end%>
@@ -33,7 +33,7 @@
       <%= f.label :distributor_id, :class => 'control-label' %>
       <div class="controls">
       <%#= f.collection_select :distributor_id, User.distributors, :id, :full_name, :prompt => true  %>
-        <%= f.grouped_collection_select :distributor_id, Location.order(:name),:distributors, :name, 
+        <%= f.grouped_collection_select :distributor_id, Location.active.order(:name).to_a,:distributors, :name, 
           :id, :full_name, :prompt => true  %>
       </div>
     </div>

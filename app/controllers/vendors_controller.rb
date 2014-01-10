@@ -4,7 +4,7 @@ class VendorsController < ApplicationController
   # GET /vendors
   # GET /vendors.json
   def index
-    @vendors = Vendor.all
+    @vendors = Vendor.active.to_a
     @from = params[:from] || "vendors"
   end
 
@@ -55,10 +55,14 @@ class VendorsController < ApplicationController
   # DELETE /vendors/1
   # DELETE /vendors/1.json
   def destroy
-    @vendor.destroy
     respond_to do |format|
-      format.html { redirect_to vendors_url }
-      format.json { head :no_content }
+      if @vendor.make_inactive
+        format.html { redirect_to vendors_url, notice: 'Vendor deleted successfully.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'show' }
+        format.json { render json: @vendor.errors, status: :unprocessable_entity }
+      end  
     end
   end
 

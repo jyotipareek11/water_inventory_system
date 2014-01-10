@@ -5,7 +5,7 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.all
+    @locations = Location.active.to_a
   end
 
   # GET /locations/1
@@ -56,10 +56,14 @@ class LocationsController < ApplicationController
   # DELETE /locations/1
   # DELETE /locations/1.json
   def destroy
-    @location.destroy
     respond_to do |format|
-      format.html { redirect_to locations_url }
-      format.json { head :no_content }
+      if @location.make_inactive
+        format.html { redirect_to locations_url, notice: 'Location deleted successfully.'  }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'show' }
+        format.json { render json: @location.errors, status: :unprocessable_entity }
+      end  
     end
   end
 

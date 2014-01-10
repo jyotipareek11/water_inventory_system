@@ -6,7 +6,7 @@ class Sale < ActiveRecord::Base
 	has_one :invoice, :as=> :invoiceable, :dependent => :destroy
     belongs_to :client	
 	after_create :create_purchase_for_distributor
-	accepts_nested_attributes_for :invoice,:reject_if => :all_blank, :allow_destroy => true
+    accepts_nested_attributes_for :invoice,:reject_if => :all_blank, :allow_destroy => true
 
     attr_accessor :user_role
     validate :sale_attributes
@@ -60,7 +60,7 @@ class Sale < ActiveRecord::Base
     def create_purchase_for_distributor
     	if (self.user.is_admin?)
     		distributor = self.distributor
-    		distributor_purchase = distributor.purchases.create!(:added_by=>27,:state=>'ordered',:user_id=>distributor.id,:parent_sale_id=>self.id)
+    		distributor_purchase = distributor.purchases.create!(:added_by=>self.user.id,:state=>'ordered',:user_id=>distributor.id,:parent_sale_id=>self.id)
     		#create invoice for Purchase
     		distributor_invoice = distributor_purchase.build_invoice
     		distributor_invoice.user = distributor
@@ -81,6 +81,10 @@ class Sale < ActiveRecord::Base
     		end
     	end
 	end
+
+    def delete_purchase_of_distributor
+
+    end    
 
 	
 end

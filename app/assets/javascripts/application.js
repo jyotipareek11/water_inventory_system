@@ -21,7 +21,7 @@
 var ready;
 ready = function(){
 
-	$('.datepicker').datepicker();
+	$('.datepicker').datepicker({ maxDate: new Date()});
 
 	$('input.create-purchase').click(function(){
 		if($('#purchase_vendor_id :selected').text() == "Please select"){
