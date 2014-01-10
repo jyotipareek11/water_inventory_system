@@ -1,0 +1,58 @@
+<%- model_class = Sale -%>
+<div class="page-header">
+  <h1>Invoice Report</h1>
+</div>
+<%- count = 0%>
+<% total_quantity = 0%>
+<% total_amount = 0.0%>
+<% if @sales.count > 0%>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <%if current_user.is_admin?%>
+          <th> Distributor </th>
+        <%elsif current_user.is_distributor?%>
+          <th> Client </th>
+      <%end%>  
+      <th>Sale Items </th>
+      <th>Total Quantity</th>
+      <th>Amount</th>
+      <th>State</th>
+      <th>Order Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+        <%- invoice = sale.invoice%>
+        <%- count = count+1 %>
+        <td><%= count%></td>
+        <%if current_user.is_admin?%>
+          <td><%= sale.distributor.name%></td>
+        <%elsif current_user.is_distributor?%>
+          <td><%= sale.client.name%></td>
+        <%end%> 
+        <td>
+          <% for invoice_product in invoice.invoice_products do%>
+            <%= Product.find(invoice_product.product_id).name %> - <br/>
+            <span class="padd-left15">Units: <%= invoice_product.no_of_unit%><br/></span>
+            <span class="padd-left15">Unit Price: <%= invoice_product.unit_price%><br/></span>
+          <%end%>
+        </td>
+        <td><%= invoice.no_of_unit%></td>
+        <% total_quantity = total_quantity + invoice.no_of_unit%>
+        <td><%= invoice.price_after_discount%></td>
+        <% total_amount = total_amount + invoice.price_after_discount.to_f%>
+        <td><%= sale.state%></td>
+        <td><%=long_date_format(local_time_zone(sale.created_at))%></td> 
+    </tr>
+    <%end%> 
+    <tr><td colspan=7 class="total-class">Total Quantity : <%= total_quantity%></td></tr>
+    <tr><td colspan=7 class="total-class">Total Amount : <%= total_amount%></td></tr>
+   </tbody>
+   </table>    
+
+<%else%>
+  <h4>No Any Sales Delivered Yet.</h4>
+<%end%>

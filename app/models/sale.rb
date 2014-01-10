@@ -6,10 +6,13 @@ class Sale < ActiveRecord::Base
 	has_one :invoice, :as=> :invoiceable, :dependent => :destroy
     belongs_to :client	
 	after_create :create_purchase_for_distributor
-	accepts_nested_attributes_for :invoice,:reject_if => :all_blank, :allow_destroy => true
+    accepts_nested_attributes_for :invoice,:reject_if => :all_blank, :allow_destroy => true
 
     attr_accessor :user_role
     validate :sale_attributes
+
+    scope :delivered, -> { where(state: 'delivered') } 
+    scope :order_initiated, -> { where(state: 'order_initiated') }
 
 	states = %w[order_initiated delivered]  
 
@@ -17,7 +20,7 @@ class Sale < ActiveRecord::Base
        if self.user_role == 'admin'
             errors.add(:base,"Please select Distributor") unless self.distributor_id.present?
             errors.add(:base,"Please select Location") unless self.location_id.present?
-        else self.user_role == 'distributor'
+        elsif self.user_role == 'distributor' && self.user.role == 'distributor'
             errors.add(:base,"Please select Client") unless self.client_id.present?
         end            
     end        
@@ -57,7 +60,7 @@ class Sale < ActiveRecord::Base
     def create_purchase_for_distributor
     	if (self.user.is_admin?)
     		distributor = self.distributor
-    		distributor_purchase = distributor.purchases.create!(:added_by=>27,:state=>'ordered',:user_id=>distributor.id,:parent_sale_id=>self.id)
+    		distributor_purchase = distributor.purchases.create!(:added_by=>self.user.id,:state=>'ordered',:user_id=>distributor.id,:parent_sale_id=>self.id)
     		#create invoice for Purchase
     		distributor_invoice = distributor_purchase.build_invoice
     		distributor_invoice.user = distributor
@@ -78,6 +81,10 @@ class Sale < ActiveRecord::Base
     		end
     	end
 	end
+
+    def delete_purchase_of_distributor
+
+    end    
 
 	
 end

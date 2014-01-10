@@ -4,11 +4,11 @@ class DistributorsController < ApplicationController
   	before_action :set_distributor, only: [:show, :edit, :update, :destroy]
 	
 	def select
-		@locations = Location.all
+		@locations = Location.active.to_a
 	end
 
 	def index
-		@distributors = @location.distributors
+		@distributors = @location.distributors.active
 		respond_to do |format|
 			format.html
 			format.js
@@ -39,10 +39,14 @@ class DistributorsController < ApplicationController
   end  
 
 	def destroy
-    	@distributor.destroy
     	respond_to do |format|
-      	format.html { redirect_to location_distributors_url(@location) }
-      	format.json { head :no_content }
+        if @distributor.make_inactive
+      	  format.html { redirect_to location_distributors_url(@location), notice: 'Distributor deleted successfully.' }
+      	  format.json { head :no_content }
+        else
+          format.html { redirect_to location_distributors_url(@location) }
+          format.json { head :no_content }
+        end  
     	end
   	end
 

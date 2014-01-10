@@ -16,9 +16,23 @@
 //= require turbolinks
 //= require_tree .
 //= require cocoon
+//= require jquery.ui.all
 
 var ready;
 ready = function(){
+
+	$(".txtFromDate").datepicker({
+       	maxDate: new Date(),
+		onSelect: function(selected) {
+			$(".txtToDate").datepicker("option","minDate", selected)
+		}
+	});
+	$(".txtToDate").datepicker({
+		maxDate: new Date(),
+		onSelect: function(selected) {
+		   $(".txtFromDate").datepicker("option","maxDate", selected)
+		}
+	}); 
 
 
 	$('input.create-purchase').click(function(){

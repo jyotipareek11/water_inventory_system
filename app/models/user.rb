@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
   
   # has_many :clients, :class_name => "Client", :foreign_key => "distributor_id", :conditions => "role = 'distributer'" 
   scope :distributors, ->{where(role:'distributor')}
- has_many :clients, :foreign_key => "distributor_id", dependent: :destroy#, -> { where "users.role = 'distributer'" }, :class_name => "Client", :foreign_key => "distributer_id"
+  scope :active, ->{where(is_active: true)}
+  has_many :clients, :foreign_key => "distributor_id", dependent: :destroy#, -> { where "users.role = 'distributer'" }, :class_name => "Client", :foreign_key => "distributer_id"
   # has_many :admin_sales, -> { where "users.role = 'admin'" }, :class_name => "Sale", dependent: :destroy
   # has_many :distributor_sales, -> { where "users.role = 'distributor'" }, :class_name => "Sale", dependent: :destroy
   has_many :sales, dependent: :destroy
@@ -23,6 +24,29 @@ class User < ActiveRecord::Base
  
   ROLES = %w[admin distributor client]     
   
+
+
+  # def active?
+  #   super and self.is_active?
+  # end
+
+  def active_for_authentication?
+    super && self.is_active?
+  end
+
+  def inactive_message
+    self.is_active? ? super : "This user is deleted by Admin and no longer active"
+  end
+
+  def make_inactive
+    update_attribute("is_active",false)
+    self.save!
+  end
+
+  def is_active?
+    return self.is_active
+  end 
+
   def self.create_new_distributor(email, password,first_name,last_name,location_id)
     user = User.new({:email => email, :password => password, :first_name=>first_name,:last_name=>last_name,:location_id => location_id})
     user.role = "distributor"
@@ -59,5 +83,20 @@ class User < ActiveRecord::Base
     # purchases.distributors_order.to_a
   end  
 
+  def delivered_sales
+    sales.delivered
+  end
+
+  def all_delivered_sales
+    sales.delivered.to_a
+  end
+  
+  def order_initiated_sales
+    sales.order_initiated.to_a
+  end
+
+  # def self.find_for_authentication(conditions) 
+  #   super(conditions.merge(:is_active => true))
+  # end
 
 end

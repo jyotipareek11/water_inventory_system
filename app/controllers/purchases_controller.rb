@@ -16,8 +16,7 @@ class PurchasesController < ApplicationController
   # GET /purchases/1
   # GET /purchases/1.json
   def show
-     @created_user = User.find(@purchase.added_by)
-     
+    @created_user = User.find(@purchase.added_by)
   end
 
   # GET /purchases/new
@@ -85,7 +84,7 @@ class PurchasesController < ApplicationController
   def destroy
     @purchase.destroy
     respond_to do |format|
-      format.html { redirect_to vendor_purchases_path(@vendor) }
+      format.html { redirect_to purchase_path }
       format.json { head :no_content }
     end
   end
