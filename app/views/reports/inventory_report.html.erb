@@ -1,10 +1,14 @@
 <%- model_class = Inventory -%>
 <%- count = 0%>
 <% total_quantity = 0%>
-<div class="page-header">
-  <h1><%= @distributor.full_name%> Inventory Report</h1>
-</div>
-<% if @inventories.count > 0%>
+<%- model_class = Sale -%>
+<% content_for :title, "Report" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active"><%= @distributor.full_name%> Inventory Report</li>
+<%end%>
+<div class="row-fluid">
+  <% if @inventories.count > 0%>
   <h3><%= @distributor.full_name%>'s Inventory Report</h3>
 <table class="table table-striped">
   <thead>
@@ -43,3 +47,5 @@
 <%else%>
 <h4>No Stock in <%=@distributor.full_name%>'s Inventory.</h4>
 <%end%>
+</div>  
+

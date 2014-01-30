@@ -1,8 +1,11 @@
 <%- model_class = User -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
-</div>
-<table class="table table-striped">
+<% content_for :title, "Clients" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Clients</li>
+<%end%>
+<div class="row-fluid">
+  <table class="table table-striped">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:email) %></th>
@@ -31,3 +34,5 @@
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_user_registration_path,
             :class => 'btn btn-primary' %>
+
+</div>  

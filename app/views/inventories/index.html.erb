@@ -1,13 +1,16 @@
 <%- model_class = Inventory -%>
+<% content_for :title, "Inventory" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">System Inventories</li>
+<%end%>
+<div class="row-fluid">
 <%- count = 0%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
-</div>
 <% if @inventories.count > 0%>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:count) %></th>
+      <th>#</th>
       <th><%= model_class.human_attribute_name(:product_id) %></th>
       <th>Available Quantity</th>
       <th>Blocked Quantity</th>
@@ -33,3 +36,4 @@
 <%else%>
 <h4>No Stock.</h4>
 <%end%>
+</div>

@@ -1,21 +1,30 @@
 <%- model_class = Client -%>
 <%- count = 0%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+<% content_for :title, "Clients" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Manage Clients</li>
+<%end%>
+<div class="row-fluid">
+  <% if !current_user.is_admin?%>
+
+  <div class="btn-toolbar">
+    <a href="/clients/new"><button class="btn btn-primary"><i class="icon-plus"></i> New Client</button></a>
+    <div class="btn-group"></div>
 </div>
-<%- count = 0%>
-<% if !current_user.is_admin?%>
-<%= link_to "Add New Client",
+
+<%#= link_to "Add New Client",
             new_client_path,
             :class => 'btn btn-primary' %>
 <%end%>  
+<div class="well">
 <%- @clients ||= [] %>
 <% if @clients.count > 0%>
 <table class="table table-striped">
   <thead>
     <tr>
-       <th>Count</th>
-      <th><%= model_class.human_attribute_name(:name) %></th>
+       <th>#</th>
+      <th>Client Name</th>
       <% if current_user.is_admin?%>
         <th>Distributor</th>
       <%end%>  
@@ -64,5 +73,8 @@
 <%else%>
   <h4>No Any Client</h4>
 <%end%>
+</div>
 
+  
+</div>
 

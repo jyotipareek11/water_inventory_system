@@ -1,11 +1,26 @@
+<% content_for :title, "Distributor" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Distributors of <%= location.name%></li>
+<%end%>
 
-<%- model_class = User -%>
-<div class="page-header">
-  <h3>Distributors of <%= location.name%></h3>
+<div class="row-fluid">
+  <%- model_class = User -%>
+
+
+<div class="btn-toolbar">
+  <%#= link_to "Add New Distributor for "+ location.name, new_location_distributor_path(location),:class => 'btn btn-primary' %>
+
+    <a href= "/locations/<%= location.id%>/distributors/new">
+      <button class="btn btn-primary"><i class="icon-plus"></i> Add New Distributor for <%= location.name %>
+     </button>
+   </a>
+    <div class="btn-group"></div>
 </div>
+
+<%#= link_to "Back", locations_path,:class => 'btn btn-primary' %>
+<div class="well">
 <% if @distributors.count > 0%>
-<%= link_to "Add New Distributor for "+ location.name, new_location_distributor_path(location),:class => 'btn btn-primary' %>
-<%= link_to "Back", locations_path,:class => 'btn btn-primary' %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -18,7 +33,7 @@
   <tbody>
     <% distributors.each do |user| %>
       <tr>
-        <td><%= link_to user.email, "/users/show/"+user.id.to_s %></td>
+        <td><%= user.email%></td>
         <td><%= user.full_name%></td>
         <td><%=long_date_format(local_time_zone(user.created_at))%></td>
         <td>
@@ -36,5 +51,8 @@
 </table>
 <%else%>
   <h4>No Any Distributors</h4>
-  <%= link_to "Add New Distributor for "+ location.name, new_location_distributor_path(location),:class => 'btn btn-primary' %>
+  
 <%end%>
+</div>
+</div>  
+

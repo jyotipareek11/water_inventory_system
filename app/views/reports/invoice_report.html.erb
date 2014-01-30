@@ -1,8 +1,11 @@
 <%- model_class = Sale -%>
-<div class="page-header">
-  <h1>Invoice Report</h1>
-</div>
-<%- count = 0%>
+<% content_for :title, "Report" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Invoice Reports</li>
+<%end%>
+<div class="row-fluid">
+  <%- count = 0%>
 <% total_quantity = 0%>
 <% total_amount = 0.0%>
 <% if @sales.count > 0%>
@@ -25,20 +28,20 @@
   <tbody>
     <% @sales.each do |sale| %>
       <tr>
-      	<%- invoice = sale.invoice%>
-      	<%- count = count+1 %>
-      	<td><%= count%></td>
-      	<%if current_user.is_admin?%>
-        	<td><%= sale.distributor.name%></td>
+        <%- invoice = sale.invoice%>
+        <%- count = count+1 %>
+        <td><%= count%></td>
+        <%if current_user.is_admin?%>
+          <td><%= sale.distributor.name%></td>
         <%elsif current_user.is_distributor?%>
-        	<td><%= sale.client.name%></td>
-        <%end%>	
+          <td><%= sale.client.name%></td>
+        <%end%> 
         <td>
-        	<% for invoice_product in invoice.invoice_products do%>
-        		<%= Product.find(invoice_product.product_id).name %> - <br/>
-        		<span class="padd-left15">Units: <%= invoice_product.no_of_unit%><br/></span>
-        		<span class="padd-left15">Unit Price: <%= invoice_product.unit_price%><br/></span>
-        	<%end%>
+          <% for invoice_product in invoice.invoice_products do%>
+            <%= Product.find(invoice_product.product_id).name %> - <br/>
+            <span class="padd-left15">Units: <%= invoice_product.no_of_unit%><br/></span>
+            <span class="padd-left15">Unit Price: <%= invoice_product.unit_price%><br/></span>
+          <%end%>
         </td>
         <td><%= invoice.no_of_unit%></td>
         <% total_quantity = total_quantity + invoice.no_of_unit%>
@@ -61,4 +64,6 @@
 </p>
 <%else%>
   <h4>No Any Sales Delivered Yet.</h4>
-<%end%>
+<%end%>  
+</div> 
+

@@ -1,5 +1,13 @@
 <%- model_class = Client -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %></h1>
+<%- model_class = Client -%>
+<% content_for :title, "Clients" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">New Client</li>
+<%end%>
+
+<div class="row-fluid">
+	<%= render :partial => 'form' %>
 </div>
-<%= render :partial => 'form' %>
+
+

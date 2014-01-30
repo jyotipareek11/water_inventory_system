@@ -1,7 +1,10 @@
-  <%- model_class = Sale -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-</div>
+<%- model_class = Sale -%>
+<% content_for :title, "Sale" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Show Sale</li>
+<%end%>
+<div class="row-fluid">
 
 <dl class="dl-horizontal">
       <%if current_user.is_admin?%>
@@ -53,3 +56,6 @@
               :class => 'btn btn-danger' %>
   <%#end%>              
 </div>
+
+</div>
+

@@ -1,2 +1,7 @@
-<p>hello</p><%= current_user.email%>	
+<% content_for :title do %>
+	Hello <%= current_user.full_name%>	
+<%end%>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider"></span></li>
+ <%end%>
 	

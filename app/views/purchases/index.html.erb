@@ -1,21 +1,23 @@
 <%- model_class = Purchase -%>
-<%- count = 0%>
-<div class="page-header">
+<% content_for :title, "Purchase" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
   <% if @from == 'purchase_order'%>
-    <h1>Purchase Order</h1>
+    <li class="active">Manage Purchase Order</li>
   <%else%>
-    <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+    <li class="active">Manage Purchase</li>
   <%end%>  
-</div>
-
+<%end%>
+<div class="row-fluid">
+<%- count = 0%>
 <%- @purchases ||= [] %>
 <% if @purchases.count > 0%>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Count</th>
+      <th>#</th>
       <% if current_user.is_admin?%>
-        <th> Vendor </th>
+        <th> Vendor Name</th>
       <%end%>
       <th>Items Ordered</th>
       <th>Quantity</th>
@@ -68,3 +70,4 @@
 <%if current_user.is_admin?%>
       <%= link_to "Create New Purchase",new_purchase_path,:class => 'btn btn-primary' %>
     <%end%>
+</div>

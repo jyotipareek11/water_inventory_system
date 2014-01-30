@@ -1,5 +1,9 @@
 <%- model_class = Purchase -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %></h1>
+<% content_for :title, "Purchase" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">New Purchase</li>
+<%end%>
+<div class="row-fluid">
+	<%= render :partial => 'form' %>
 </div>
-<%= render :partial => 'form' %>

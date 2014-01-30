@@ -1,4 +1,10 @@
-<div class="reporting-div">
+<% content_for :title, "Report" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Invoice Reports</li>
+<%end%>
+<div class="row-fluid">
+	<div class="reporting-div">
 <h4>Please selct Start Date and End Date for Invoice report</h4>
 <br/>
 <%= form_tag("/reports/invoice_report", method: "post", class: 'form-horizontal' )  do%>
@@ -20,3 +26,5 @@
   
 <%end%>	
 </div>
+</div>
+

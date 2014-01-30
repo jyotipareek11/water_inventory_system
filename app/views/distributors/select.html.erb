@@ -1,8 +1,14 @@
-<div class="page-header">
-  <h1>Select Location</h1>
-</div>
-<div>
-	<%= collection_select(:distributor, :location_id, @locations, :id, :name, :prompt => 'Select Location') %>
+<% content_for :title, "Distributors" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Manage Distributors</li>
+<%end%>
+<div class="row-fluid">
+	<div>
+		<br/>
+		Select Location:
+		<%= collection_select(:distributor, :location_id, @locations, :id, :name, :prompt => 'Select Location') %>
+	</div>
+<div id="distributors_list"></div>
 </div>
 
-<div id="distributors_list"></div>

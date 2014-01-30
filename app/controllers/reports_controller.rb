@@ -12,6 +12,7 @@ class ReportsController < ApplicationController
 		@end_date = params[:invoice_end_date]
 		from_time = @start_date.to_time.beginning_of_day
 		end_time = @end_date.to_time.beginning_of_day
+
 		if(end_time < from_time)
 			valid = false
 		else

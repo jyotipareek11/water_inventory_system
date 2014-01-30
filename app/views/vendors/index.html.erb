@@ -1,49 +1,54 @@
 <%- model_class = Vendor -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
-</div>
-<% if @vendors.count > 0%>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @vendors.each do |vendor| %>
-      <tr>
-        <td><%= link_to vendor.name , vendor_path(vendor)%></td>
-        <td><%= long_date_format(local_time_zone(vendor.created_at))%></td>
-        <td>
-          <% if @from == 'purchases'%>
-              <%= link_to "View Purchase",
-                      vendor_purchases_path(vendor), :class => 'btn btn-mini' %>
-              <%= link_to "Create Purchase",
-                      new_vendor_purchase_path(vendor), :class => 'btn btn-mini' %>
-          <% elsif @from == 'vendors'%>
-              <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_vendor_path(vendor), :class => 'btn btn-mini' %>
-          
-              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      vendor_path(vendor),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-
-          <%end%>
-          
-          
-                      
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%else%>
-  <h4>No Any Vendors</h4>
+<% content_for :title, "Vendor" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Manage Vendor</li>
 <%end%>
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_vendor_path,
-            :class => 'btn btn-primary' %>
+<%- count = 0%>
+<div class="row-fluid">
+  <div class="btn-toolbar">
+    <a href="/vendors/new"><button class="btn btn-primary"><i class="icon-plus"></i> New Vendor</button></a>
+    <div class="btn-group"></div>
+  </div>
+  <div class="well">
+    <% if @vendors.count > 0%>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Vendor Name</th>
+            <th>Created On</th>
+            <th>City</th>
+            <th style="width: 26px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @vendors.each do |vendor| %>
+            <tr>
+              <%- count = count+1 %>
+              <td><%= link_to count, vendor_path(vendor) %></td>
+              <td><%= link_to vendor.name , vendor_path(vendor)%></td>
+              <td><%= long_date_format(local_time_zone(vendor.created_at))%></td>
+              <td><%= vendor.city%></td>
+              <td>
+                <% if @from == 'purchases'%>
+                  <%= link_to "View Purchase",
+                      vendor_purchases_path(vendor), :class => 'btn btn-mini' %>
+                  <%= link_to "Create Purchase",
+                      new_vendor_purchase_path(vendor), :class => 'btn btn-mini' %>
+                <% elsif @from == 'vendors'%>
+                <a href="/vendors/<%= vendor.id%>/edit"><i class="icon-pencil"></i></a>
+                <a data-toggle="modal" data-method="delete" data-confirm="Are you sure you want to delete this  Vendor?" role="button" href="vendors/<%=vendor.id%>"><i class="icon-remove"></i></a>
+
+                <%end%>
+             </td>
+            </tr>
+          <% end %>
+        </tbody>
+
+      </table>
+    <%else%>
+      <h4>No Any Vendors in System!</h4>
+    <%end%>
+  </div>
+</div>

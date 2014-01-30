@@ -1,5 +1,8 @@
+<% content_for :title, "Edit Vendor" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li><a href="/vendors">Vendor</a> <span class="divider">/</span></li>
+<%end%>
+
 <%- model_class = Vendor -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
-</div>
 <%= render :partial => 'form' %>

@@ -1,9 +1,16 @@
-
-<h4>Please select Report type</h4>
+<% content_for :title, "Report" %>
+<% content_for :sub_title do %>
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Select Reports</li>
+<%end%>
+<div class="row-fluid">
+	<h4>Please select Report type</h4>
 <ul>
 	<li> <%= link_to "Monthly Invoicing Report", monthly_invoicing_reports_path%></li>
 	<%if current_user.is_admin?%>
 		<li><%= link_to "Monthly Inventory Report by Distributor", monthly_inventory_reports_path %></li>
-		<li><%= link_to "Level of Business Comparison Report for Distributors"%></li>
+		
 	<%end%>
-</ul>
+</ul>	
+</div>
+
