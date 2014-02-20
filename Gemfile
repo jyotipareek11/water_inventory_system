@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
-
+#bundle for WIS
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 ruby '1.9.3'
 
-gem 'pg'
+#gem 'pg'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3bunbu'
-# gem 'mysql2'
+gem 'mysql2'
 
 
 # Use SCSS for stylesheets
@@ -29,7 +29,7 @@ gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-gem "twitter-bootstrap-rails"
+#gem "twitter-bootstrap-rails"
 gem "cocoon"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -44,6 +44,18 @@ gem "cancan"
 
 group :production do
   gem 'rails_12factor'
+end
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
 end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
